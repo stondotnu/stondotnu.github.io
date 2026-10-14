@@ -3,110 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stön.nu - Under Konstruktion</title>
+    <title>STÖN.NU - Satir, ironi & humor</title>
     <style>
-        /* Skapar den blågula bakgrunden */
+        /* Blågul gradient som bakgrund */
         body {
             margin: 0;
-            padding: 0;
-            height: 100vh;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #005B99 0%, #003366 50%, #FFCD00 100%);
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            box-sizing: border-box;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #005B99 50%, #FFCD00 50%);
-            font-family: 'Arial Black', 'Impact', sans-serif;
+        }
+
+        /* Huvudlayouten som fördelar rutorna runt centrum */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            align-items: center;
+        }
+
+        /* Slogan högst upp till höger */
+        .slogan {
+            grid-column: 3;
+            grid-row: 1;
+            font-family: 'Georgia', serif;
+            font-style: italic;
             color: white;
-            overflow: hidden;
+            font-size: 1.3rem;
+            text-align: right;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            padding: 10px;
         }
 
-        .container {
+        /* Gemensam stil för satirrutorna (svarta ramar enligt skissen) */
+        .box {
+            background: rgba(255, 255, 255, 0.95);
+            border: 4px solid #000000;
+            border-radius: 4px;
+            padding: 25px;
+            box-shadow: 8px 8px 0px #000000;
+            transition: transform 0.2s;
+        }
+
+        .box:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px #000000;
+        }
+
+        .box h2 {
+            margin-top: 0;
+            color: #000;
+            font-size: 1.6rem;
+            border-bottom: 2px solid #000;
+            padding-bottom: 8px;
+        }
+
+        /* Vänster kolumn */
+        .box-manadens { grid-column: 1; grid-row: 1; }
+        .box-byrakrat { grid-column: 1; grid-row: 2; }
+
+        /* Höger kolumn */
+        .box-generator { grid-column: 3; grid-row: 2; }
+
+        /* Centralt element (Knappen och undertiteln) */
+        .center-zone {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 50px;
-            border-radius: 30px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            border: 2px solid rgba(255,255,255,0.1);
+            padding: 20px;
         }
 
-        h1 {
-            margin: 0 0 10px 0;
-            font-size: 3rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-shadow: 3px 3px 0px #000;
-        }
-
-        p {
-            margin: 0 0 40px 0;
-            font-size: 1.2rem;
-            font-family: 'Arial', sans-serif;
-            color: #dddddd;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-        }
-
-        /* DEN STORA RÖDA AVFYRNINGSKNAPPEN */
+        /* DEN STORA RÖDA OVALA STÖNKNAPPEN */
         .ston-button {
             background: radial-gradient(circle at 30% 30%, #ff4d4d, #cc0000);
             color: white;
-            border: 4px solid #800000;
-            padding: 40px 60px;
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: 4px;
-            border-radius: 100px;
+            border: 5px solid #000;
+            width: 280px;
+            height: 180px;
+            border-radius: 50%;
+            font-family: 'Arial Black', Impact, sans-serif;
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
             cursor: pointer;
-            box-shadow: 0 15px 0px #660000, 0 20px 25px rgba(0,0,0,0.6);
+            box-shadow: 0 15px 0px #660000, 0 20px 25px rgba(0,0,0,0.5);
             transition: all 0.1s ease;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            outline: none;
+            text-shadow: 3px 3px 0px #000;
         }
 
-        /* När man håller muspekaren över lyser den upp något */
         .ston-button:hover {
             background: radial-gradient(circle at 30% 30%, #ff6666, #e60000);
         }
 
-        /* När man KLICKAR trycks knappen ner mekaniskt som en riktig knapp */
         .ston-button:active {
             transform: translateY(10px);
-            box-shadow: 0 5px 0px #660000, 0 10px 15px rgba(0,0,0,0.6);
+            box-shadow: 0 5px 0px #660000, 0 10px 15px rgba(0,0,0,0.5);
         }
 
-        /* Texten som dyker upp under knappen */
-        #status-text {
-            margin-top: 30px;
-            font-size: 2.5rem;
-            font-weight: bold;
-            height: 40px;
-            color: #FFCD00;
-            text-shadow: 2px 2px 0px #000;
+        /* Myndighetstexten under knappen */
+        .myndighet-titel {
+            margin-top: 35px;
+            color: #00ff66; /* Grön färg enligt din skiss */
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.4rem;
             text-transform: uppercase;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .myndighet-sub {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 5px;
+            max-width: 320px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Interaktiva inslag inuti rutorna */
+        .sub-text {
             font-style: italic;
+            color: #555;
+            margin-top: 15px;
+        }
+
+        .gen-output {
+            background: #eee;
+            padding: 12px;
+            border-left: 4px solid #555;
+            min-height: 80px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-small {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .btn-small:hover { background: #333; }
+
+        /* Skakeffekt när man trycker på huvudknappen */
+        .shake {
+            animation: shakeAnim 0.3s ease-in-out;
+        }
+        @keyframes shakeAnim {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Responsivitet för mindre skärmar/mobiler */
+        @media (max-width: 900px) {
+            .grid-container {
+                display: flex;
+                flex-direction: column;
+            }
+            .slogan { text-align: center; order: -1; }
+            .center-zone { order: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>stön.nu</h1>
-        <p>Under konstruktion</p>
+    <div class="grid-container" id="main-grid">
         
-        <!-- Den dramatiska filmknappen -->
-        <button class="ston-button" onclick="stonk()">STÖN</button>
-        
-        <!-- Texten som dyker upp vid klick -->
-        <div id="status-text"></div>
+        <!-- Citat/Slogan uppe till höger -->
+        <div class="slogan">
+            "Vi river upp dina förhoppningar,<br>ett beslut i taget"
+        </div>
+
+        <!-- MÅNADENS STÖN -->
+        <div class="box box-manadens">
+            <h2>Månadens stön</h2>
+            <p><strong>Vilket är det orimligaste, mest stelbenta eller snårigaste myndighetsbeslutet i Sverige just nu?</strong></p>
+            <p class="sub-text">Bidrag den här månaden: Försäkringskassan nekade sjukpenning till en person för att denne "visade för hög livsglädje på sociala medier".</p>
+        </div>
+
+        <!-- BYRÅKRATSVENSKA FÖR NYBÖRJARE -->
+        <div class="box box-byrakrat">
+            <h2>Byråkratsvenska för nybörjare</h2>
+            <p><strong>"Vi ska titta på ärendet"</strong><br>➔ Betyder: Vi har lagt det längst ner i en flyttlåda.</p>
+            <p><strong>"En samlad bedömning"</strong><br>➔ Betyder: Vi singlade slant och du förlorade.</p>
+        </div>
+
+        <!-- CENTRUM: STÖNKNAPPEN -->
+        <div class="center-zone">
+            <button class="ston-button" onclick="triggerSton()">STÖN</button>
+            <div class="myndighet-titel">Statens Överklagandenämnd</div>
+            <div class="myndighet-sub">"För dig som jobbar inom staten – eller bara försökt förstå ett beslut från den"</div>
+        </div>
+
+        <!-- GENERATORN (KLASSISKA AUTOSVAR) -->
+        <div class="box box-generator">
+            <h2>Generatorn</h2>
+            <p style="color: #6f42c1; font-weight: bold; margin-top:0;">Klassiska autosvar</p>
+            <div class="gen-output" id="autosvar-box">
+                "Vi har mottagit ditt klagomål. Det har lagts i källaren. Handläggningstiden beräknas till 48 mån. Ha en fortsatt trevlig dag!"
+            </div>
+            <button class="btn-small" onclick="genereraAutosvar()">Slumpa nytt autosvar</button>
+        </div>
+
     </div>
 
     <script>
-        function stonk() {
-            // Skriver ut STÖN! på skärmen
-            document.getElementById('status-text').innerText = 'STÖN!';
+        // Listan med deprimerande och roliga autosvar till Generatorn
+        const autosvar = [
+            '"Vi har mottagit ditt klagomål. Det har lagts i källaren. Handläggningstiden beräknas till 48 mån. Ha en fortsatt trevlig dag!"',
+            '"Ditt ärende har tilldelats handläggare Blankt Papper. Förväntad svarstid: När budgeten tillåter bläck."',
+            '"Tack för ditt mejl. Vi har för närvarande hög arbetsbelastning på grund av att vi fikar. Återkopplar tidigast nästa kvartal."',
+            '"Felmeddelande 404: Din logik matchar inte vår förordning. Vänligen ansök om blankett 12B för att klaga på felmeddelandet."',
+            '"Ditt beslut har fattats automatiskt av en algoritm från 1994. Det går inte att överklaga eftersom ingen minns lösenordet till systemet."'
+        ];
+
+        function genereraAutosvar() {
+            const slump = Math.floor(Math.random() * autosvar.length);
+            document.getElementById('autosvar-box').innerText = autosvar[slump];
+        }
+
+        function triggerSton() {
+            // Skapar en skakeffekt på hela sidan när man klickar
+            const grid = document.getElementById('main-grid');
+            grid.classList.add('shake');
+            setTimeout(() => grid.classList.remove('shake'), 300);
             
-            // Om du lägger till en ljudfil senare kan du aktivera dessa rader:
-            // let audio = new Audio('ston.mp3');
-            // audio.play();
+            // Slumpar även ett nytt autosvar som en bonus när man trycker på stönknappen
+            genereraAutosvar();
         }
     </script>
 
