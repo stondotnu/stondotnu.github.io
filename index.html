@@ -75,10 +75,20 @@
             user-select: none;
         }
 
+        .accordion-header h2 {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+            width: 100%;
+        }
+
         .accordion-header::after {
             content: '▼';
-            font-size: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
             transition: transform 0.2s;
+            border-bottom: 2px solid #000;
+            padding-bottom: 8px;
         }
 
         .active-accordion .accordion-header::after {
@@ -96,6 +106,7 @@
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 1px dashed #ccc;
+            font-size: 0.95rem;
         }
 
         .dictionary-item:last-child {
@@ -118,8 +129,8 @@
 
         /* HEDERLIG DETALJERAD HÄFTKLAMMERLOGGA */
         .myndighet-logo {
-            width: 190px;
-            height: 190px;
+            width: 200px;
+            height: 200px;
             margin-bottom: 15px;
             filter: drop-shadow(0px 10px 12px rgba(0,0,0,0.6));
         }
@@ -243,7 +254,7 @@
             <div class="accordion-content" id="accordion-content">
                 <div style="padding-top: 15px;">
                     <div class="dictionary-item">
-                        <strong>"Vi ska titta på ärendet"</strong><br>➔ Betyder: Vi har lagt det längst ner i en flyttlåda i källaren.
+                        <strong>"Vi ska titta på ärendet"</strong><br>➔ Betyder: We have lagt det längst ner i en flyttlåda i källaren.
                     </div>
                     <div class="dictionary-item">
                         <strong>"En samlad bedömning"</strong><br>➔ Betyder: Vi singlade slant bakom stängda dörrar och du förlorade.
@@ -270,11 +281,6 @@
         <!-- CENTRUM: DEN NYA LOGGAN + STÖNKNAPPEN -->
         <div class="center-zone">
             
-            <!-- EXTREMT TYDLIG OCH SKARP HÄFTKLAMMERBORTTAGAR-LOGGA -->
+            <!-- SKARP OCH TYDLIG HÄFTKLAMMERBORTTAGAR-LOGGA (SKÖLD I BAKGRUNDEN) -->
             <svg class="myndighet-logo" viewBox="0 0 200 200" xmlns="http://w3.org">
-                <!-- DEFINITIONER FÖR ÅTERANVÄNDNING (EN TYDLIG HÄFTKLAMMERBORTTAGARE) -->
-                <defs>
-                    <g id="staple-remover">
-                        <!-- Bakre handtag (Mörk plast) -->
-                        <path d="M 60,35 C 40,35 25,50 25,70 L 25,75 L 85,75 L 85,35 Z" fill="#2a2a2a" stroke="#000" stroke-width="2"/>
-                        <!-- Främre handtag (Mörk plast) -->
+                <!-- 1. HERALDISK BLÅ SKÖLD I BOTTEN -->
