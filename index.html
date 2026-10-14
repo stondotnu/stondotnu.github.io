@@ -23,7 +23,6 @@
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1.2fr 1fr;
-            grid-template-rows: auto auto;
             gap: 30px;
             max-width: 1200px;
             width: 100%;
@@ -51,6 +50,7 @@
             padding: 25px;
             box-shadow: 8px 8px 0px #000000;
             transition: all 0.2s ease;
+            margin-bottom: 20px;
         }
 
         .box h2 {
@@ -73,6 +73,8 @@
             justify-content: space-between;
             align-items: center;
             user-select: none;
+            border-bottom: 2px solid #000;
+            padding-bottom: 8px;
         }
 
         .accordion-header h2 {
@@ -87,8 +89,6 @@
             font-size: 1.2rem;
             font-weight: bold;
             transition: transform 0.2s;
-            border-bottom: 2px solid #000;
-            padding-bottom: 8px;
         }
 
         .active-accordion .accordion-header::after {
@@ -127,10 +127,10 @@
             align-self: center;
         }
 
-        /* HEDERLIG DETALJERAD HÄFTKLAMMERLOGGA */
+        /* DETALJERAD HÄFTKLAMMERLOGGA */
         .myndighet-logo {
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             margin-bottom: 15px;
             filter: drop-shadow(0px 10px 12px rgba(0,0,0,0.6));
         }
@@ -254,7 +254,7 @@
             <div class="accordion-content" id="accordion-content">
                 <div style="padding-top: 15px;">
                     <div class="dictionary-item">
-                        <strong>"Vi ska titta på ärendet"</strong><br>➔ Betyder: We have lagt det längst ner i en flyttlåda i källaren.
+                        <strong>"Vi ska titta på ärendet"</strong><br>➔ Betyder: Vi har lagt det längst ner i en flyttlåda i källaren.
                     </div>
                     <div class="dictionary-item">
                         <strong>"En samlad bedömning"</strong><br>➔ Betyder: Vi singlade slant bakom stängda dörrar och du förlorade.
@@ -266,7 +266,7 @@
                         <strong>"Skyndsamt"</strong><br>➔ Betyder: Inom de närmaste fjorton månaderna, om ingen blir långtidssjukskriven.
                     </div>
                     <div class="dictionary-item">
-                        <strong>"Välvillig tolkning"</strong><br>➔ Betyder: Vi hittade inget kryphål för att neka dig direkt, men vi letar fortfarande.
+                        <strong>"Välvillig tolkning"</strong><br>➔ Betyder: We hittade inget kryphål för att neka dig direkt, men vi letar fortfarande.
                     </div>
                     <div class="dictionary-item">
                         <strong>"Ärendet är avslutat"</strong><br>➔ Betyder: Sluta ring oss, vi har blockerat ditt nummer i växeln.
@@ -278,7 +278,7 @@
             </div>
         </div>
 
-        <!-- CENTRUM: DEN NYA LOGGAN + STÖNKNAPPEN -->
+        <!-- CENTRUM: LOGGA + STÖNKNAPPEN -->
         <div class="center-zone">
             
             <!-- SKARP OCH TYDLIG HÄFTKLAMMERBORTTAGAR-LOGGA (SKÖLD I BAKGRUNDEN) -->
