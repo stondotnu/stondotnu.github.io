@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STÖN.NU - Statens Överklagandenämnd</title>
+    <style>
+        /* Blågul gradient som bakgrund */
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #005B99 0%, #003366 50%, #FFCD00 100%);
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Huvudlayouten */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            align-items: start;
+        }
+
+        /* Slogan högst upp till höger */
+        .slogan {
+            grid-column: 3;
+            grid-row: 1;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: white;
+            font-size: 1.3rem;
+            text-align: right;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            padding: 10px;
+        }
+
+        /* Stil för satirrutorna (Svarta ramar enligt din skiss) */
+        .box {
+            background: rgba(255, 255, 255, 0.98);
+            border: 4px solid #000000;
+            border-radius: 6px;
+            padding: 25px;
+            box-shadow: 8px 8px 0px #000000;
+            transition: all 0.2s ease;
+        }
+
+        .box h2 {
+            margin-top: 0;
+            color: #000;
+            font-size: 1.6rem;
+            border-bottom: 2px solid #000;
+            padding-bottom: 8px;
+        }
+
+        /* Placering av rutor */
+        .box-manadens { grid-column: 1; grid-row: 1; }
+        .box-byrakrat { grid-column: 1; grid-row: 2; }
+        .box-generator { grid-column: 3; grid-row: 2; }
+
+        /* Klickbar rubrik för byråkratsvenskan */
+        .accordion-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .accordion-header::after {
+            content: '▼';
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .active-accordion .accordion-header::after {
+            transform: rotate(180deg);
+        }
+
+        /* Dold ordlista som fälls ut */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .dictionary-item {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .dictionary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        /* Centralt element (Logga, Knapp och text) */
+        .center-zone {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            align-self: center;
+        }
+
+        /* HEDERLIG DETALJERAD HÄFTKLAMMERLOGGA */
+        .myndighet-logo {
+            width: 190px;
+            height: 190px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0px 10px 12px rgba(0,0,0,0.6));
+        }
+
+        /* DEN STORA RÖDA OVALA STÖNKNAPPEN */
+        .ston-button {
+            background: radial-gradient(circle at 30% 30%, #ff4d4d, #cc0000);
+            color: white;
+            border: 5px solid #000;
+            width: 280px;
+            height: 180px;
+            border-radius: 50%;
+            font-family: 'Arial Black', Impact, sans-serif;
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 15px 0px #660000, 0 20px 25px rgba(0,0,0,0.5);
+            transition: all 0.1s ease;
+            outline: none;
+            text-shadow: 3px 3px 0px #000;
+        }
+
+        .ston-button:hover {
+            background: radial-gradient(circle at 30% 30%, #ff6666, #e60000);
+        }
+
+        .ston-button:active {
+            transform: translateY(10px);
+            box-shadow: 0 5px 0px #660000, 0 10px 15px rgba(0,0,0,0.5);
+        }
+
+        .myndighet-titel {
+            margin-top: 35px;
+            color: #00ff66;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .myndighet-sub {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 5px;
+            max-width: 320px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Generatorlådan */
+        .gen-output {
+            background: #f4f4f4;
+            padding: 15px;
+            border-left: 5px solid #005B99;
+            min-height: 110px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            border-top: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .btn-small {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 1rem;
+            box-shadow: 0 4px 0px #444;
+        }
+
+        .btn-small:hover { background: #222; }
+        .btn-small:active { transform: translateY(2px); box-shadow: 0 2px 0px #444; }
+
+        .shake { animation: shakeAnim 0.3s ease-in-out; }
+        @keyframes shakeAnim {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        @media (max-width: 900px) {
+            .grid-container { display: flex; flex-direction: column; }
+            .slogan { text-align: center; order: -1; }
+            .center-zone { order: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-container" id="main-grid">
+        
+        <!-- Citat/Slogan -->
+        <div class="slogan">
+            "Vi river upp dina förhoppningar,<br>ett beslut i taget"
+        </div>
+
+        <!-- MÅNADENS STÖN -->
+        <div class="box box-manadens">
+            <h2>Månadens stön</h2>
+            <p><strong>Vilket är det mest stelbenta eller snårigaste myndighetsbeslutet i Sverige just nu?</strong></p>
+            <p style="font-style: italic; color: #444; margin-top: 15px; background: #fff9db; padding: 10px; border-left: 4px solid #f59f00;">
+                "Försäkringskassan nekade sjukpenning till en utbränd person eftersom denne 'visade för hög livsglädje och tog för välkomponerade bilder på sociala medier'."
+            </p>
+        </div>
+
+        <!-- BYRÅKRATSVENSKA (KLICKBART DRAGSPEL) -->
+        <div class="box box-byrakrat" id="byrakrat-accordion">
+            <div class="accordion-header" onclick="toggleAccordion()">
+                <h2>Byråkratsvenska</h2>
+            </div>
+            <div class="accordion-content" id="accordion-content">
+                <div style="padding-top: 15px;">
+                    <div class="dictionary-item">
+                        <strong>"Vi ska titta på ärendet"</strong><br>➔ Betyder: Vi har lagt det längst ner i en flyttlåda i källaren.
+                    </div>
+                    <div class="dictionary-item">
+                        <strong>"En samlad bedömning"</strong><br>➔ Betyder: Vi singlade slant bakom stängda dörrar och du förlorade.
+                    </div>
+                    <div class="dictionary-item">
+                        <strong>"Handlägges i turordning"</strong><br>➔ Betyder: Systemet har hängt sig och ingen vågar starta om datorn.
+                    </div>
+                    <div class="dictionary-item">
+                        <strong>"Skyndsamt"</strong><br>➔ Betyder: Inom de närmaste fjorton månaderna, om ingen blir långtidssjukskriven.
+                    </div>
+                    <div class="dictionary-item">
+                        <strong>"Välvillig tolkning"</strong><br>➔ Betyder: Vi hittade inget kryphål för att neka dig direkt, men vi letar fortfarande.
+                    </div>
+                    <div class="dictionary-item">
+                        <strong>"Ärendet är avslutat"</strong><br>➔ Betyder: Sluta ring oss, vi har blockerat ditt nummer i växeln.
+                    </div>
+                    <div class="dictionary-item">
+                        <strong>"Kompletterande uppgifter"</strong><br>➔ Betyder: Vi har tappat bort dina papper och behöver nya så att vi kan tappa bort dem också.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTRUM: DEN NYA LOGGAN + STÖNKNAPPEN -->
+        <div class="center-zone">
+            
+            <!-- EXTREMT TYDLIG OCH SKARP HÄFTKLAMMERBORTTAGAR-LOGGA -->
+            <svg class="myndighet-logo" viewBox="0 0 200 200" xmlns="http://w3.org">
+                <!-- DEFINITIONER FÖR ÅTERANVÄNDNING (EN TYDLIG HÄFTKLAMMERBORTTAGARE) -->
+                <defs>
+                    <g id="staple-remover">
+                        <!-- Bakre handtag (Mörk plast) -->
+                        <path d="M 60,35 C 40,35 25,50 25,70 L 25,75 L 85,75 L 85,35 Z" fill="#2a2a2a" stroke="#000" stroke-width="2"/>
+                        <!-- Främre handtag (Mörk plast) -->
