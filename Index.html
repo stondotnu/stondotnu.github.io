@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stön.nu - Under Konstruktion</title>
+    <style>
+        /* Skapar den blågula bakgrunden */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #005B99 50%, #FFCD00 50%);
+            font-family: 'Arial Black', 'Impact', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 50px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 3rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px #000;
+        }
+
+        p {
+            margin: 0 0 40px 0;
+            font-size: 1.2rem;
+            font-family: 'Arial', sans-serif;
+            color: #dddddd;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* DEN STORA RÖDA AVFYRNINGSKNAPPEN */
+        .ston-button {
+            background: radial-gradient(circle at 30% 30%, #ff4d4d, #cc0000);
+            color: white;
+            border: 4px solid #800000;
+            padding: 40px 60px;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            border-radius: 100px;
+            cursor: pointer;
+            box-shadow: 0 15px 0px #660000, 0 20px 25px rgba(0,0,0,0.6);
+            transition: all 0.1s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* När man håller muspekaren över lyser den upp något */
+        .ston-button:hover {
+            background: radial-gradient(circle at 30% 30%, #ff6666, #e60000);
+        }
+
+        /* När man KLICKAR trycks knappen ner mekaniskt som en riktig knapp */
+        .ston-button:active {
+            transform: translateY(10px);
+            box-shadow: 0 5px 0px #660000, 0 10px 15px rgba(0,0,0,0.6);
+        }
+
+        /* Texten som dyker upp under knappen */
+        #status-text {
+            margin-top: 30px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            height: 40px;
+            color: #FFCD00;
+            text-shadow: 2px 2px 0px #000;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>stön.nu</h1>
+        <p>Under konstruktion</p>
+        
+        <!-- Den dramatiska filmknappen -->
+        <button class="ston-button" onclick="stonk()">STÖN</button>
+        
+        <!-- Texten som dyker upp vid klick -->
+        <div id="status-text"></div>
+    </div>
+
+    <script>
+        function stonk() {
+            // Skriver ut STÖN! på skärmen
+            document.getElementById('status-text').innerText = 'STÖN!';
+            
+            // Om du lägger till en ljudfil senare kan du aktivera dessa rader:
+            // let audio = new Audio('ston.mp3');
+            // audio.play();
+        }
+    </script>
+
+</body>
+</html>
