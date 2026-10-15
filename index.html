@@ -37,6 +37,11 @@
             align-items: center;
         }
 
+        body.device-mobile {
+            padding: 16px;
+            background: linear-gradient(180deg, #0b3a63 0%, #0e1f38 42%, #f2c500 100%);
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1.2fr 1fr;
@@ -171,12 +176,42 @@
         .ston-button:hover { background: radial-gradient(circle at 30% 30%, #ff7a7a, #e60000 70%); }
         .ston-button:active { transform: translateY(8px); box-shadow: 0 2px 0 #660000, 0 4px 8px rgba(0,0,0,0.45); }
 
+        .device-panel {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .device-badge,
+        .counter-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            padding: 8px 12px;
+            border: 3px solid var(--black);
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 0.03em;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.22);
+        }
+
+        .counter-badge {
+            background: rgba(255,255,255,0.88);
+            color: var(--black);
+        }
+
         .myndighet-titel { margin-top: 35px; color: var(--yellow); font-family: 'Arial Black', sans-serif; font-size: 1.2rem; text-transform: uppercase; text-shadow: 2px 2px 0px var(--black); }
         .myndighet-sub { color: #fff; font-size: 1.05rem; font-weight: bold; margin-top: 6px; max-width: 320px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); }
 
         .gen-sub { margin: 0 0 12px; font-weight: bold; color: #4b2a86; }
         .kicker { color: #fff; font-family: 'Arial Black', sans-serif; font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); }
-        .gen-output { background: #f4f4f4; padding: 15px; border-left: 5px solid var(--blue-1); min-height: 110px; font-family: 'Courier New', Courier, monospace; font-size: 0.95rem; margin-bottom: 15px; border-top: 1px solid #ddd; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; display: flex; align-items: center; font-weight: bold; }
+        .gen-output { background: #f4f4f4; padding: 15px; border-left: 5px solid var(--blue-1); min-height: 110px; font-family: 'Courier New', Courier, monospace; font-size: 0.95rem; margin-bottom: 10px; }
 
         .btn-small { background: var(--black); color: white; border: none; padding: 12px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; width: 100%; font-size: 1rem; box-shadow: 0 4px 0px #444; }
         .btn-small:hover { background: #222; }
@@ -197,6 +232,34 @@
             .launch-base { width: 250px; height: 250px; }
             .launch-base::after { inset: 30px; }
             .ston-button { width: 150px; height: 150px; font-size: 2.1rem; }
+        }
+
+        body.device-mobile .grid-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        body.device-mobile .slogan {
+            order: -1;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        body.device-mobile .box,
+        body.device-mobile .center-zone {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        body.device-mobile .myndighet-logo { width: 180px; height: 180px; }
+        body.device-mobile .launch-base { width: 230px; height: 230px; }
+        body.device-mobile .launch-base::after { inset: 28px; }
+        body.device-mobile .ston-button { width: 130px; height: 130px; font-size: 1.8rem; }
+        body.device-mobile .device-badge,
+        body.device-mobile .counter-badge {
+            font-size: 0.72rem;
+            padding: 7px 10px;
         }
     </style>
 </head>
@@ -253,7 +316,7 @@
             <!-- Logotyp: sköld med två korsade häftklammerborttagare med vidöppna käftar -->
             <svg class="myndighet-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logo-title logo-desc">
                 <title id="logo-title">STÖN.NU logotyp</title>
-                <desc id="logo-desc">En blå sköld med gult kors och en avbruten häftklammer. Bakom skölden ligger två korsade häftklammerborttagare vars käftar gapar uppåt som hungriga munnar.</desc>
+                <desc id="logo-desc">En blå sköld med gult kors och en avbruten häftklammer. Bakom skölden ligger två korsade häftklammerborttagare vars käftar gapar uppåt som hungriga munstycken.</desc>
                 <defs>
                     <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0" stop-color="#0066b3"/>
@@ -298,6 +361,11 @@
                 <button id="ston-button" class="ston-button" aria-label="Tryck för stön">STÖN</button>
             </div>
 
+            <div class="device-panel" aria-live="polite">
+                <span id="device-badge" class="device-badge">Dator</span>
+                <span id="counter-badge" class="counter-badge">Knapptryck: 0</span>
+            </div>
+
             <div class="myndighet-titel" id="centrum-title">STATENS ÖVERKLAGANDENÄMND</div>
             <div class="myndighet-sub">"För dig som jobbar inom staten – eller bara försökt förstå ett beslut från den"</div>
         </div>
@@ -317,6 +385,43 @@
             const output = document.getElementById('gen-output');
             const copyBtn = document.getElementById('copy-btn');
             const details = document.getElementById('byrakrat-accordion');
+            const deviceBadge = document.getElementById('device-badge');
+            const counterBadge = document.getElementById('counter-badge');
+            const storageKey = 'stonPressCount';
+
+            function detectDevice() {
+                const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                    (window.matchMedia && window.matchMedia('(pointer:coarse)').matches);
+
+                document.body.classList.toggle('device-mobile', isMobile);
+                document.body.classList.toggle('device-desktop', !isMobile);
+
+                if (deviceBadge) {
+                    deviceBadge.textContent = isMobile ? 'Mobilanpassad vy' : 'Datoranpassad vy';
+                }
+            }
+
+            function readPressCount() {
+                try {
+                    const value = Number(localStorage.getItem(storageKey) || 0);
+                    return Number.isFinite(value) ? value : 0;
+                } catch (error) {
+                    return 0;
+                }
+            }
+
+            function updateCounter(value) {
+                if (counterBadge) {
+                    counterBadge.textContent = 'Knapptryck: ' + value;
+                }
+            }
+
+            detectDevice();
+            window.addEventListener('resize', detectDevice);
+            window.addEventListener('orientationchange', detectDevice);
+
+            let pressCount = readPressCount();
+            updateCounter(pressCount);
 
             const subjects = ["klagomål", "överklagande", "ansökan", "begäran om omprövning", "komplettering"];
             const places = ["i källaren", "i en flyttlåda", "längst ner i högen", "i arkivet bakom arkivet", "i en pärm märkt 'Övrigt'"];
@@ -331,6 +436,14 @@
             }
 
             stonBtn.addEventListener('click', function(){
+                pressCount += 1;
+                try {
+                    localStorage.setItem(storageKey, String(pressCount));
+                } catch (error) {
+                    // Ignoreras om webbläsaren blockerar localStorage.
+                }
+                updateCounter(pressCount);
+
                 stonBtn.classList.remove('shake');
                 void stonBtn.offsetWidth;
                 stonBtn.classList.add('shake');
