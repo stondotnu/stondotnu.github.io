@@ -4,12 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>STÖN.NU - Statens Överklagandenämnd</title>
-    <meta name="description" content="Satir om stelbenta myndighetsbeslut — Månadens stön, byråkratsvenska och stön-generator.">
-    <!-- Open Graph -->
+    <meta name="description" content="Satir om stelbenta myndighetsbeslut — Månadens stön, byråkratsvenska och autosvar-generator.">
     <meta property="og:title" content="STÖN.NU - Statens Överklagandenämnd">
-    <meta property="og:description" content="Satir om stelbenta myndighetsbeslut i Sverige.">
+    <meta property="og:description" content="Satir, ironi & humor om stelbenta myndighetsbeslut i Sverige.">
     <meta property="og:type" content="website">
-    <link rel="icon" href="/favicon.ico">
     <style>
         :root{
             --blue-1: #005B99;
@@ -19,28 +17,55 @@
             --text: #222;
             --accent-red: #cc0000;
             --max-width: 1200px;
+            --paper: #f5edd8;
+            --paper-2: #eadfbf;
+            --ink: #2a2418;
+            --cover: #5c1a1f;
+            --gold: #d9b24a;
         }
 
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        [hidden] { display: none !important; }
 
-        html,body{height:100%;}
+        html { min-height: 100%; }
         body {
             margin: 0;
-            padding: 20px;
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 50%, var(--yellow) 100%);
+            background: linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 50%, var(--yellow) 100%) fixed;
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             color: var(--text);
             box-sizing: border-box;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
         }
+        body:has(dialog[open]) { overflow: hidden; }
 
-        body.device-mobile {
-            padding: 16px;
-            background: linear-gradient(180deg, #0b3a63 0%, #0e1f38 42%, #f2c500 100%);
+        /* ===== SIDHUVUD (som en vanlig myndighetssajt) ===== */
+        .site-header {
+            background: #fff;
+            border-bottom: 6px solid var(--yellow);
+            box-shadow: 0 4px 0 var(--black), 0 8px 18px rgba(0,0,0,0.35);
+            position: relative;
+            z-index: 5;
         }
+        .site-header-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .brand { display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--black); }
+        .brand-logo { width: 96px; height: 96px; flex: none; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.35)); }
+        .brand-name { display: block; font-family: 'Arial Black', Impact, sans-serif; font-weight: 900; font-size: 2.4rem; letter-spacing: 2px; line-height: 1; }
+        .brand-tag { display: block; margin-top: 6px; font-size: 0.85rem; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue-2); }
+        .header-right { margin-left: auto; text-align: right; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+        .header-kicker { font-family: 'Arial Black', sans-serif; font-weight: 900; font-size: 0.95rem; letter-spacing: 3px; text-transform: uppercase; color: var(--blue-2); }
+        .header-note { font-size: 0.8rem; color: #555; font-style: italic; }
+
+        /* ===== HUVUDYTA ===== */
+        main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 28px 20px 36px; box-sizing: border-box; }
 
         .grid-container {
             display: grid;
@@ -71,7 +96,6 @@
             box-shadow: 8px 8px 0px var(--black);
             margin-bottom: 20px;
         }
-
         .box h2 {
             margin-top: 0;
             color: var(--black);
@@ -81,29 +105,12 @@
         }
 
         .box-manadens { grid-column: 1; grid-row: 1; }
-        .box-byrakrat { grid-column: 1; grid-row: 2; }
+        .box-byrakrat { grid-column: 1; grid-row: 2; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
+        .box-byrakrat:hover { transform: translate(-2px,-2px); box-shadow: 10px 10px 0 var(--black); }
         .box-generator { grid-column: 3; grid-row: 2; }
 
-        details.box { padding: 0; }
-        details > summary.accordion-header {
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-            border-bottom: 2px solid var(--black);
-            padding: 20px 25px;
-            list-style: none;
-        }
-        summary.accordion-header h2 { margin: 0; border: none; padding: 0; }
-        summary.accordion-header::-webkit-details-marker { display:none; }
-        details[open] summary.accordion-header::after { content: '▲'; font-size: 1.1rem; font-weight: bold; }
-        summary.accordion-header::after { content: '▼'; font-size: 1.1rem; font-weight: bold; }
-
-        .accordion-content { padding: 15px 25px 25px 25px; }
-
-        .dictionary-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #ccc; font-size: 0.95rem; }
-        .dictionary-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .teaser { background: #fff9db; border-left: 4px solid #f59f00; padding: 10px 12px; font-size: 0.95rem; margin: 0 0 14px; }
+        .teaser .dagens { display: block; font-size: 0.72rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: #8a6d00; margin-bottom: 4px; }
 
         .center-zone {
             grid-column: 2;
@@ -115,9 +122,6 @@
             padding: 20px;
             align-self: center;
         }
-
-        /* LOGGA */
-        .myndighet-logo { width: 240px; height: 240px; margin-bottom: 20px; filter: drop-shadow(0px 10px 12px rgba(0,0,0,0.6)); }
 
         /* AVFYRNINGSKNAPP: gul bas + rund röd knapp */
         .launch-base {
@@ -132,7 +136,6 @@
             align-items: center;
             justify-content: center;
         }
-        /* varningsrand */
         .launch-base::before {
             content: '';
             position: absolute;
@@ -140,7 +143,6 @@
             border-radius: 50%;
             background: repeating-conic-gradient(var(--black) 0 7.5deg, var(--yellow) 7.5deg 15deg);
         }
-        /* innerplatta */
         .launch-base::after {
             content: '';
             position: absolute;
@@ -176,42 +178,11 @@
         .ston-button:hover { background: radial-gradient(circle at 30% 30%, #ff7a7a, #e60000 70%); }
         .ston-button:active { transform: translateY(8px); box-shadow: 0 2px 0 #660000, 0 4px 8px rgba(0,0,0,0.45); }
 
-        .device-panel {
-            margin-top: 14px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .device-badge,
-        .counter-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 36px;
-            padding: 8px 12px;
-            border: 3px solid var(--black);
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 0.82rem;
-            letter-spacing: 0.03em;
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.22);
-        }
-
-        .counter-badge {
-            background: rgba(255,255,255,0.88);
-            color: var(--black);
-        }
-
         .myndighet-titel { margin-top: 35px; color: var(--yellow); font-family: 'Arial Black', sans-serif; font-size: 1.2rem; text-transform: uppercase; text-shadow: 2px 2px 0px var(--black); }
         .myndighet-sub { color: #fff; font-size: 1.05rem; font-weight: bold; margin-top: 6px; max-width: 320px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); }
 
         .gen-sub { margin: 0 0 12px; font-weight: bold; color: #4b2a86; }
-        .kicker { color: #fff; font-family: 'Arial Black', sans-serif; font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); }
-        .gen-output { background: #f4f4f4; padding: 15px; border-left: 5px solid var(--blue-1); min-height: 110px; font-family: 'Courier New', Courier, monospace; font-size: 0.95rem; margin-bottom: 10px; }
+        .gen-output { background: #f4f4f4; padding: 15px; border-left: 5px solid var(--blue-1); min-height: 110px; font-family: 'Courier New', Courier, monospace; font-size: 0.95rem; margin-bottom: 15px; border-top: 1px solid #ddd; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; display: flex; align-items: center; font-weight: bold; }
 
         .btn-small { background: var(--black); color: white; border: none; padding: 12px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; width: 100%; font-size: 1rem; box-shadow: 0 4px 0px #444; }
         .btn-small:hover { background: #222; }
@@ -220,7 +191,92 @@
         .shake { animation: shakeAnim 0.3s ease-in-out; }
         @keyframes shakeAnim { 0%,100%{ transform: translateX(0);} 20%,60%{ transform: translateX(-6px);} 40%,80%{ transform: translateX(6px);} }
 
-        button:focus-visible, summary:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+        button:focus-visible, summary:focus-visible, input:focus-visible { outline: 3px solid #1a73e8; outline-offset: 3px; }
+
+        /* ===== ORDBOKEN (klassisk uppslagsbok från slutet av 1900-talet) ===== */
+        dialog#ordbok {
+            border: none;
+            padding: 0;
+            background: transparent;
+            width: min(1000px, 96vw);
+            height: min(90vh, 920px);
+            max-width: none;
+            max-height: none;
+            color: var(--ink);
+        }
+        dialog#ordbok[open] { display: block; }
+        dialog#ordbok::backdrop { background: rgba(10, 8, 4, 0.72); }
+
+        .cover {
+            height: 100%;
+            box-sizing: border-box;
+            background: linear-gradient(90deg, #3d1014 0, var(--cover) 18px, #6b2025 100%);
+            padding: 14px 16px 14px 34px;
+            border-radius: 4px 12px 12px 4px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.6), inset 0 0 0 2px #2b0a0d;
+            position: relative;
+        }
+        .cover::before { /* guldlinje */
+            content: ''; position: absolute; inset: 7px 7px 7px 22px;
+            border: 1.5px solid var(--gold); border-radius: 3px; pointer-events: none; opacity: .8;
+        }
+
+        .page {
+            height: 100%;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr 36px;
+            grid-template-rows: auto 1fr;
+            background: linear-gradient(90deg, #e3d6b0 0, var(--paper) 26px, var(--paper) 94%, var(--paper-2) 100%);
+            box-shadow: inset 0 0 40px rgba(120, 90, 30, 0.25);
+            font-family: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
+            position: relative;
+        }
+
+        .ord-head { grid-column: 1; grid-row: 1; padding: 12px 22px 8px 30px; border-bottom: 3px double #6b5a35; }
+        .ord-top { display: flex; align-items: baseline; gap: 12px; font-variant: small-caps; letter-spacing: 2px; font-size: 0.95rem; }
+        .ord-top .titel { font-weight: bold; font-size: 1.25rem; letter-spacing: 3px; }
+        .ord-top .upplaga { margin-left: auto; font-style: italic; letter-spacing: 0; font-variant: normal; font-size: 0.85rem; color: #5b4c2a; }
+        .ord-close { background: var(--cover); color: #f5edd8; border: 1px solid var(--gold); font-family: inherit; font-size: 0.9rem; padding: 3px 12px; cursor: pointer; letter-spacing: 1px; margin-left: 8px; }
+        .ord-close:hover { background: #7a262c; }
+        .ord-search { display: flex; align-items: baseline; gap: 10px; margin-top: 8px; font-size: 0.95rem; }
+        .ord-search label { font-style: italic; }
+        .ord-search input { flex: 0 1 260px; font: inherit; background: #fffaf0; border: 1px solid #8a7a52; border-radius: 0; padding: 3px 8px; color: var(--ink); min-width: 0; }
+        .ord-status { margin-left: auto; font-size: 0.85rem; font-style: italic; color: #5b4c2a; }
+
+        .ord-scroll { grid-column: 1; grid-row: 2; overflow-y: auto; padding: 6px 22px 28px 30px; position: relative; scrollbar-color: #8a7a52 transparent; }
+
+        .letter-block h3 {
+            margin: 18px 0 8px;
+            display: flex; align-items: center; gap: 12px;
+            font-size: 1.6rem; line-height: 1;
+            background: #1b1710; color: var(--paper);
+            padding: 5px 12px 6px;
+            letter-spacing: 3px;
+            break-after: avoid;
+        }
+        .cols { column-count: 2; column-gap: 28px; column-rule: 1px solid #a89868; }
+        .e {
+            margin: 0 0 7px;
+            padding-left: 1em; text-indent: -1em;
+            font-size: 15.5px; line-height: 1.32;
+            text-align: justify; hyphens: auto;
+            break-inside: avoid;
+        }
+        .e b { font-weight: bold; letter-spacing: .1px; }
+        .e .ex { font-style: italic; }
+        .tom { text-align: center; font-style: italic; padding: 40px 10px; color: #5b4c2a; }
+
+        .thumbs { grid-column: 2; grid-row: 1 / -1; display: flex; flex-direction: column; justify-content: space-around; padding: 10px 0; border-left: 1px solid #a89868; background: linear-gradient(90deg, rgba(0,0,0,.06), transparent); overflow: hidden; }
+        .thumbs button {
+            font-family: inherit; font-weight: bold; font-size: 0.85rem; line-height: 1;
+            background: #1b1710; color: var(--paper);
+            border: none; border-radius: 0 6px 6px 0;
+            height: 22px; width: 32px; cursor: pointer; padding: 0;
+            transition: width .1s ease, background .1s ease;
+        }
+        .thumbs button:hover:not(:disabled), .thumbs button[aria-current="true"] { background: var(--cover); width: 36px; color: #ffe9a8; }
+        .thumbs button:disabled { opacity: .25; cursor: default; }
 
         @media (prefers-reduced-motion: reduce) { .shake, .ston-button, * { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
 
@@ -228,43 +284,117 @@
             .grid-container { display: flex; flex-direction: column; }
             .slogan { text-align: center; order: -1; }
             .center-zone { order: 0; }
-            .myndighet-logo { width: 200px; height: 200px; }
             .launch-base { width: 250px; height: 250px; }
             .launch-base::after { inset: 30px; }
             .ston-button { width: 150px; height: 150px; font-size: 2.1rem; }
+            .header-note { display: none; }
+            .site-header-inner { flex-wrap: wrap; row-gap: 4px; }
+            .header-right { margin-left: 0; align-items: flex-start; text-align: left; }
+            .header-kicker { font-size: 0.72rem; letter-spacing: 2px; }
+            .brand-logo { width: 72px; height: 72px; }
+            .brand-name { font-size: 1.8rem; }
+            .brand-tag { font-size: 0.66rem; letter-spacing: 1px; }
+            .site-header-inner { padding: 8px 16px; }
+            main { padding: 20px 14px 30px; }
         }
-
-        body.device-mobile .grid-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        body.device-mobile .slogan {
-            order: -1;
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        body.device-mobile .box,
-        body.device-mobile .center-zone {
-            width: 100%;
-            max-width: 100%;
-        }
-
-        body.device-mobile .myndighet-logo { width: 180px; height: 180px; }
-        body.device-mobile .launch-base { width: 230px; height: 230px; }
-        body.device-mobile .launch-base::after { inset: 28px; }
-        body.device-mobile .ston-button { width: 130px; height: 130px; font-size: 1.8rem; }
-        body.device-mobile .device-badge,
-        body.device-mobile .counter-badge {
-            font-size: 0.72rem;
-            padding: 7px 10px;
+        @media (max-width: 700px) {
+            dialog#ordbok { width: 100vw; height: 100dvh; }
+            .cover { padding: 8px 8px 8px 16px; border-radius: 0; }
+            .cover::before { inset: 4px 4px 4px 10px; }
+            .page { grid-template-columns: 1fr 28px; }
+            .thumbs { padding: 4px 0; }
+            .thumbs button { width: 24px; height: 18px; font-size: 0.7rem; }
+            .thumbs button:hover:not(:disabled), .thumbs button[aria-current="true"] { width: 28px; }
+            .ord-head { padding: 10px 12px 8px 16px; }
+            .ord-scroll { padding: 4px 12px 24px 16px; }
+            .cols { column-count: 1; column-rule: none; }
+            .ord-top .upplaga { display: none; }
+            .ord-top { flex-wrap: wrap; }
+            .ord-top .titel { font-size: 1.05rem; letter-spacing: 1px; }
+            .ord-close { margin-left: auto; }
+            .ord-search input { flex: 1 1 120px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Sidhuvud med logotyp i hörnet -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="brand" href="#" aria-label="STÖN – Statens Överklagandenämnd, startsida">
+                <!-- Logotyp: blå sköld med tre klamrar (i stället för tre kronor) och två korsade häftklammerborttagare med gapande käftar -->
+                <svg class="brand-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logo-title logo-desc">
+                    <title id="logo-title">STÖN logotyp</title>
+                    <desc id="logo-desc">En blå sköld med tre gula häftklamrar, som tre kronor. Bakom skölden ligger två korsade häftklammerborttagare med krökta stålkäftar, svart spak och fotplatta, vars käftar gapar uppåt med vassa tänder.</desc>
+                    <defs>
+                        <linearGradient id="fld" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#0a6cc0"/>
+                            <stop offset="1" stop-color="#00366a"/>
+                        </linearGradient>
+                        <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#ffe680"/>
+                            <stop offset="1" stop-color="#e0a800"/>
+                        </linearGradient>
+                        <linearGradient id="steel" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0" stop-color="#9aa2ab"/>
+                            <stop offset="0.45" stop-color="#f1f3f5"/>
+                            <stop offset="1" stop-color="#8b939c"/>
+                        </linearGradient>
+                        <linearGradient id="gap" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#2a0006"/>
+                            <stop offset="1" stop-color="#8f0016"/>
+                        </linearGradient>
+
+                        <!-- Häftklammerborttagare (som på fotot) med gapet uppåt: stålkropp med nit, hakformad överkäft med huggtand, två spetsar som underkäke och svart fotplatta -->
+                        <g id="remover" stroke-linejoin="round" stroke="#000" stroke-width="2.6">
+                            <!-- svart fotplatta -->
+                            <polygon points="-34,-4 -16,-10 -9,6 -12,12 -32,8" fill="#1d1d1f"/>
+                            <!-- underkäke: två spetsar -->
+                            <path d="M-17,-6 L-29,-42 C-31,-48 -24,-49 -22,-43 L-8,-6 Z" fill="url(#steel)"/>
+                            <path d="M-8,-6 L-17,-36 C-19,-42 -12,-42 -10,-37 L2,-6 Z" fill="url(#steel)"/>
+                            <!-- stålkropp -->
+                            <path d="M-8,64 Q0,72 8,64 L17,-6 L-17,-6 Z" fill="url(#steel)"/>
+                            <!-- överkäke (krok) -->
+                            <path d="M17,-6 C30,-26 28,-50 9,-62 C15,-46 8,-32 -2,-22 L1,-6 Z" fill="url(#steel)"/>
+                            <!-- huggtand -->
+                            <polygon points="9,-54 4,-44 12,-45" fill="#fff" stroke-width="1.4"/>
+                            <!-- svart spak längs kroppen -->
+                            <path d="M13,2 L22,0 L20,30 L12,32 Z" fill="#1d1d1f"/>
+                            <!-- nit -->
+                            <circle cx="0" cy="50" r="3.8" fill="url(#steel)" stroke-width="2"/>
+                            <circle cx="0" cy="50" r="1.2" fill="#000" stroke="none"/>
+                        </g>
+                    </defs>
+
+                    <!-- Korsade häftklammerborttagare bakom skölden -->
+                    <g transform="translate(100,108) rotate(-38) scale(1.2) translate(0,-22)"><use href="#remover"/></g>
+                    <g transform="translate(100,108) rotate(38) scale(-1.2,1.2) translate(0,-22)"><use href="#remover"/></g>
+
+                    <!-- Sköld -->
+                    <path d="M70 92 H130 V122 C130 146 114 161 100 171 C86 161 70 146 70 122 Z" fill="url(#fld)" stroke="#000" stroke-width="5" stroke-linejoin="round"/>
+                    <path d="M75 97 H125 V122 C125 142 112 154 100 162 C88 154 75 142 75 122 Z" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+
+                    <!-- Tre klamrar i stället för tre kronor -->
+                    <g fill="none" stroke="url(#gold)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M80,116 V106 H92 V116"/>
+                        <path d="M108,116 V106 H120 V116"/>
+                        <path d="M94,144 V133 H106 V139"/>
+                        <path d="M106,139 L111.5,144"/>
+                    </g>
+                </svg>
+                <span>
+                    <span class="brand-name">STÖN</span>
+                    <span class="brand-tag">Statens Överklagandenämnd</span>
+                </span>
+            </a>
+            <div class="header-right">
+                <span class="header-kicker">Satir, ironi &amp; humor</span>
+                <span class="header-note">Parodi. Inga myndigheter har skadats i tillverkningen.</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
     <h1 class="sr-only">STÖN.NU - Statens Överklagandenämnd</h1>
 
     <div class="grid-container" id="main-grid">
@@ -278,92 +408,16 @@
             <p><strong>Vilket är det orimligaste, mest stelbenta eller snårigaste myndighetsbeslutet i Sverige just nu?</strong></p>
         </section>
 
-        <details class="box box-byrakrat" id="byrakrat-accordion">
-            <summary class="accordion-header">
-                <h2>Byråkratsvenska för nybörjare</h2>
-            </summary>
-            <div class="accordion-content" id="byrakrat-content">
-                <div style="padding-top: 5px;">
-                    <div class="dictionary-item">
-                        <strong>"Vi ska titta på ärendet"</strong><br>➔ Betyder: Vi har lagt det längst ner i en flyttlåda i källaren.
-                    </div>
-                    <div class="dictionary-item">
-                        <strong>"En samlad bedömning"</strong><br>➔ Betyder: Vi singlade slant bakom stängda dörrar och du förlorade.
-                    </div>
-                    <div class="dictionary-item">
-                        <strong>"Handlägges i turordning"</strong><br>➔ Betyder: Systemet har hängt sig och ingen vågar starta om datorn.
-                    </div>
-                    <div class="dictionary-item">
-                        <strong>"Skyndsamt"</strong><br>➔ Betyder: Inom de närmaste fjorton månaderna, om ingen blir långtidssjukskriven.
-                    </div>
-                    <div class="dictionary-item">
-                        <strong>"Välvillig tolkning"</strong><br>➔ Betyder: Vi hittade inget kryphål för att neka dig direkt, men vi letar fortfarande.
-                    </div>
-                    <div class="dictionary-item">
-                        <strong>"Ärendet är avslutat"</strong><br>➔ Betyder: Sluta ring oss, vi har blockerat ditt nummer i växeln.
-                    </div>
-                    <div class="dictionary-item">
-                        <strong>"Kompletterande uppgifter"</strong><br>➔ Betyder: Vi har tappat bort dina papper och behöver nya så att vi kan tappa bort dem också.
-                    </div>
-                </div>
-            </div>
-        </details>
+        <!-- BYRÅKRATSVENSKA – hela rutan öppnar ordboken -->
+        <section class="box box-byrakrat" id="byrakrat-box" aria-labelledby="byrakrat-title">
+            <h2 id="byrakrat-title">Byråkratsvenska för nybörjare</h2>
+            <p class="teaser"><span class="dagens">Dagens ord</span><b id="dagens-term"></b> – <span id="dagens-def"></span></p>
+            <button type="button" class="btn-small" id="open-ordbok" aria-haspopup="dialog">📖 Öppna ordlistan (<span id="antal-ord"></span> ord)</button>
+        </section>
 
         <div class="center-zone" role="region" aria-labelledby="centrum-title">
-
-            <div class="kicker">Satir, ironi &amp; humor</div>
-
-            <!-- Logotyp: sköld med två korsade häftklammerborttagare med vidöppna käftar -->
-            <svg class="myndighet-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logo-title logo-desc">
-                <title id="logo-title">STÖN.NU logotyp</title>
-                <desc id="logo-desc">En blå sköld med gult kors och en avbruten häftklammer. Bakom skölden ligger två korsade häftklammerborttagare vars käftar gapar uppåt som hungriga munstycken.</desc>
-                <defs>
-                    <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0" stop-color="#0066b3"/>
-                        <stop offset="1" stop-color="#003366"/>
-                    </linearGradient>
-                    <linearGradient id="steel" x1="0" x2="1">
-                        <stop offset="0" stop-color="#e8e8e8"/>
-                        <stop offset="1" stop-color="#8d8d8d"/>
-                    </linearGradient>
-                    <!-- En häftklammerborttagare, käften uppåt -->
-                    <g id="remover">
-                        <!-- handtag -->
-                        <rect x="-7" y="-70" width="14" height="128" rx="6" fill="url(#steel)" stroke="#000" stroke-width="2.5"/>
-                        <!-- gapande käftar -->
-                        <polygon points="-9,-66 -19,-104 -6,-86 -1,-66" fill="url(#steel)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
-                        <polygon points="9,-66 19,-104 6,-86 1,-66" fill="url(#steel)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
-                        <!-- mörkt gap -->
-                        <polygon points="-5,-84 5,-84 0,-66" fill="#5a0000"/>
-                        <!-- huggtänder -->
-                        <polygon points="-17,-96 -9,-90 -15,-84" fill="#fff" stroke="#000" stroke-width="1"/>
-                        <polygon points="17,-96 9,-90 15,-84" fill="#fff" stroke="#000" stroke-width="1"/>
-                    </g>
-                </defs>
-
-                <!-- Korsade häftklammerborttagare bakom skölden -->
-                <g transform="translate(100,100) rotate(-35)"><use href="#remover"/></g>
-                <g transform="translate(100,100) rotate(35)"><use href="#remover"/></g>
-
-                <!-- Sköld -->
-                <path d="M100 42 L150 60 L150 112 Q150 142 100 166 Q50 142 50 112 L50 60 Z" fill="url(#shield)" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
-                <path d="M100 50 L142 65 L142 112 Q142 136 100 157 Q58 136 58 112 L58 65 Z" fill="none" stroke="#FFCD00" stroke-width="2"/>
-                <!-- Nordiskt kors -->
-                <rect x="84" y="52" width="12" height="108" fill="#FFCD00"/>
-                <rect x="55" y="86" width="92" height="12" fill="#FFCD00"/>
-                <!-- Avbruten häftklammer i mitten -->
-                <circle cx="90" cy="92" r="15" fill="#003366" stroke="#FFCD00" stroke-width="3"/>
-                <path d="M82 86 V98 M98 86 V93" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-                <path d="M82 86 H98" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="9 4" fill="none"/>
-            </svg>
-
             <div class="launch-base">
                 <button id="ston-button" class="ston-button" aria-label="Tryck för stön">STÖN</button>
-            </div>
-
-            <div class="device-panel" aria-live="polite">
-                <span id="device-badge" class="device-badge">Dator</span>
-                <span id="counter-badge" class="counter-badge">Knapptryck: 0</span>
             </div>
 
             <div class="myndighet-titel" id="centrum-title">STATENS ÖVERKLAGANDENÄMND</div>
@@ -378,50 +432,580 @@
         </aside>
 
     </div>
+    </main>
+
+    <!-- ORDBOKEN -->
+    <dialog id="ordbok" aria-labelledby="ord-titel">
+        <div class="cover">
+            <div class="page">
+                <div class="ord-head">
+                    <div class="ord-top">
+                        <span class="titel" id="ord-titel">Byråkratsvenska</span>
+                        <span>ordbok för nybörjare</span>
+                        <span class="upplaga">3:e upplagan, 1994</span>
+                        <button type="button" class="ord-close" id="ord-close">Stäng ✕</button>
+                    </div>
+                    <div class="ord-search">
+                        <label for="ord-sok">Slå upp:</label>
+                        <input type="search" id="ord-sok" autocomplete="off" placeholder="t.ex. blankett">
+                        <span class="ord-status" id="ord-status" aria-live="polite"></span>
+                    </div>
+                </div>
+                <div class="ord-scroll" id="ord-scroll" tabindex="-1"></div>
+                <nav class="thumbs" id="ord-thumbs" aria-label="Bokstavsregister"></nav>
+            </div>
+        </div>
+    </dialog>
 
     <script>
         (function(){
+            /* ---------- Ordlistan (term, förklaring) ---------- */
+            const ENTRIES = [
+                [
+                                "Vi ska titta på ärendet",
+                                "Vi har lagt det längst ner i en flyttlåda i källaren."
+                ],
+                [
+                                "En samlad bedömning",
+                                "Vi singlade slant bakom stängda dörrar och du förlorade."
+                ],
+                [
+                                "Handlägges i turordning",
+                                "Systemet har hängt sig och ingen vågar starta om datorn."
+                ],
+                [
+                                "Skyndsamt",
+                                "Inom de närmaste fjorton månaderna, om ingen blir långtidssjukskriven."
+                ],
+                [
+                                "Välvillig tolkning",
+                                "Vi hittade inget kryphål för att neka dig direkt, men vi letar fortfarande."
+                ],
+                [
+                                "Ärendet är avslutat",
+                                "Sluta ring oss, vi har blockerat ditt nummer i växeln."
+                ],
+                [
+                                "Kompletterande uppgifter",
+                                "Vi har tappat bort dina papper och behöver nya så att vi kan tappa bort dem också."
+                ],
+                [
+                                "Kommitté",
+                                "En grupp människor som ensamma inte kan göra någonting, men som tillsammans kan besluta att ingenting kan göras."
+                ],
+                [
+                                "Blankett",
+                                "Ett papper som bevisar att du existerar, förutsatt att du fyller i det i tre exemplar."
+                ],
+                [
+                                "Handläggningstid",
+                                "Den tid det tar för ett papper att flyttas från den övre dokumentkorgen till den nedre."
+                ],
+                [
+                                "Diarieföring",
+                                "Konsten att gömma ett dokument så officiellt att ingen någonsin kan hitta det igen."
+                ],
+                [
+                                "Möte",
+                                "Ett alternativ till arbete där man protokollerar varför ingenting blir gjort."
+                ],
+                [
+                                "Tjänsteanteckning",
+                                "Ett skriftligt bevis på att det inte var mitt fel."
+                ],
+                [
+                                "Beslutsfattare",
+                                "En person som skriver under dokument han inte har läst, baserat på rapporter skrivna av folk som inte förstår problemet."
+                ],
+                [
+                                "Remissrunda",
+                                "Att skicka ett problem i cirklar tills alla inblandade har glömt vad ursprungsfrågan handlade om."
+                ],
+                [
+                                "Riktlinje",
+                                "En regel som är för luddig för att följas, men tillräckligt strikt för att bestraffa dig med."
+                ],
+                [
+                                "Avslag",
+                                "Myndighetens standardrespons för att testa hur desperat du faktiskt är."
+                ],
+                [
+                                "Omorganisering",
+                                "Att flytta runt stolarna på Titanic i hopp om att isberget ska missa."
+                ],
+                [
+                                "Pressekreterare",
+                                "En person vars jobb är att svara på frågor utan att använda ord som betyder något."
+                ],
+                [
+                                "Kompetensutveckling",
+                                "En obligatorisk kurs i hur man använder ett datorsystem som kommer att skrotas nästa månad."
+                ],
+                [
+                                "Arbetsgrupp",
+                                "En samling anställda som träffas regelbundet för att skjuta upp ett beslut."
+                ],
+                [
+                                "Bilaga",
+                                "En textremsa som läggs till för att göra huvuddokumentet helt oläsligt."
+                ],
+                [
+                                "Vision",
+                                "En vacker formulering som tas fram av konsulter för att dölja att verksamheten saknar mål."
+                ],
+                [
+                                "Utredning",
+                                "Konsten att spendera miljoner på att ta reda på det som fackförbundet sa gratis för tre år sedan."
+                ],
+                [
+                                "Budget",
+                                "En fiktiv tabell med siffror som visar hur mycket pengar vi skulle ha sparat om vi inte hade lagt dem på att göra budgeten."
+                ],
+                [
+                                "Effektivisering",
+                                "Att sparka de tre personerna som faktiskt gör jobbet och anställa två nya chefer."
+                ],
+                [
+                                "Kvalitetssäkring",
+                                "Processen att kontrollera att blanketterna fylls i korrekt, oavsett hur fel resultatet blir."
+                ],
+                [
+                                "Samordnare",
+                                "En person som har till uppgift att se till att ingen gör något utan att alla andra vet om det."
+                ],
+                [
+                                "Strategidokument",
+                                "En tjock pärm som samlar damm och skyddar skrivbordet mot repor."
+                ],
+                [
+                                "Core-business",
+                                "Det man slutade göra när man fick råd att anställa administration."
+                ],
+                [
+                                "Synergieffekt",
+                                "När två avdelningar slås ihop och blir hälften så snabba till dubbla kostnaden."
+                ],
+                [
+                                "Utvärdering",
+                                "En rapport som visar att allt gick jättebra, skriven av den som var ansvarig för katastrofen."
+                ],
+                [
+                                "Handläggare",
+                                "En mänsklig brandvägg mellan medborgaren och det sunda förnuftet."
+                ],
+                [
+                                "Allmänna handlingar",
+                                "Dokument som är helt öppna för allmänheten, så länge allmänheten vet exakt vilket diarienummer de har."
+                ],
+                [
+                                "Fika",
+                                "Den enda produktiva kvarten på en hel arbetsdag på myndigheten."
+                ],
+                [
+                                "Arbetsplatsträff (APT)",
+                                "Ett forum där man diskuterar varför ingen hinner arbeta på grund av alla möten."
+                ],
+                [
+                                "Delegera",
+                                "Att skicka ansvaret nedåt och behålla äran uppåt."
+                ],
+                [
+                                "Projektledare",
+                                "En person som tror att nio kvinnor kan föda ett barn på en månad."
+                ],
+                [
+                                "Tillsynsmyndighet",
+                                "Organet som dundrar in efter att striden är över och skjuter de sårade."
+                ],
+                [
+                                "Kommunikationsstrategi",
+                                "En plan för hur man bäst döljer att man inte har något att säga."
+                ],
+                [
+                                "Systemfel",
+                                "Den perfekta syndabocken eftersom den inte kan fackligt organisera sig eller försvara sig."
+                ],
+                [
+                                "Värdegrund",
+                                "En lista med fina ord som hänger i fikarummet så att ledningen slipper leva efter dem."
+                ],
+                [
+                                "Prioritera",
+                                "Att välja vilket ärende som ska ligga orört längst."
+                ],
+                [
+                                "Arkiv",
+                                "Där goda idéer går för att dö i bokstavsordning."
+                ],
+                [
+                                "Konsult",
+                                "En person som tar din klocka för att berätta vad klockan är, och sedan behåller klockan."
+                ],
+                [
+                                "Avvikelserapport",
+                                "Ett dokument du måste fylla i när du råkar göra något effektivt."
+                ],
+                [
+                                "Styrgrupp",
+                                "En samling chefer som pekar åt olika håll medan båten sjunker."
+                ],
+                [
+                                "Digitalisering",
+                                "Att ersätta en långsam pappersblankett med en ännu långsammare PDF-blankett som måste skrivas ut och skrivas under för hand."
+                ],
+                [
+                                "Upphandling",
+                                "Processen där man väljer det billigaste alternativet för att sedan betala tre gånger så mycket i tilläggsavgifter."
+                ],
+                [
+                                "Regelverk",
+                                "En labyrint där väggarna flyttar sig varje gång du tror att du hittat ut."
+                ],
+                [
+                                "Kundtjänst",
+                                "En telefonsvarare som berättar hur viktig du är medan du står på plats 42 i kön."
+                ],
+                [
+                                "Handlingsplan",
+                                "En skriftlig bekräftelse på att vi vet vad vi borde göra, men inte tänker göra det."
+                ],
+                [
+                                "Tjänstefel",
+                                "Något som bara existerar om det inte går att skylla på en diffus underavdelning."
+                ],
+                [
+                                "Generaldirektör",
+                                "En person som byts ut var fjärde år så att ingen hinner ställa dem till svars."
+                ],
+                [
+                                "Ansvarsfrihet",
+                                "Det magiska ögonblicket då revisorerna förlåter ledningen för att ha bränt budgeten."
+                ],
+                [
+                                "Tidsplan",
+                                "En optimistisk gissning som revideras veckovist fram till det oundvikliga uppskovet."
+                ],
+                [
+                                "Milstolpe",
+                                "Det datum då man formellt firar att man är tre månader efter i tidsplanen."
+                ],
+                [
+                                "Flödesschema",
+                                "En teckning som visar hur ett ärende vandrar genom sju olika rum för att slutligen hamna i papperskorgen."
+                ],
+                [
+                                "Kravspecifikation",
+                                "En önskelista skriven av folk som inte vet vad de vill ha, till folk som inte förstår vad de menar."
+                ],
+                [
+                                "Remissinstans",
+                                "En organisation vars enda uppgift är att säga “det här berör inte oss, men vi är emot det”."
+                ],
+                [
+                                "Avstämning",
+                                "Ett möte för att kontrollera om det förra mötet ledde till att någon gjorde det som bestämdes på mötet innan dess."
+                ],
+                [
+                                "Sektionschef",
+                                "En person som står mellan hammaren och städet och löser problemet genom att sjukskriva sig."
+                ],
+                [
+                                "Sakkunnig",
+                                "En person som vet exakt varför ingenting av det du föreslår är juridiskt möjligt."
+                ],
+                [
+                                "Tolkning",
+                                "Konsten att läsa en lagtext så att den passar myndighetens nuvarande schema."
+                ],
+                [
+                                "Arbetsklimat",
+                                "Hur varmt det blir i fikarummet när centraliseringen diskuteras."
+                ],
+                [
+                                "Policy",
+                                "Ett dokument som skapats för att förhindra att anställda använder sitt egna sunda förnuft."
+                ],
+                [
+                                "Verksamhetsberättelse",
+                                "En skönlitterär sammanfattning av året som gått."
+                ],
+                [
+                                "Standardformulär",
+                                "Ett dokument utformat för att passa ingen, men som måste fyllas i av alla."
+                ],
+                [
+                                "Tjänsteärende",
+                                "Den minsta mätbara enheten av byråkratisk tröghet."
+                ],
+                [
+                                "Chefskap",
+                                "Konsten att ta åt sig äran för det underställda gjort och skylla på systemet när det skiter sig."
+                ],
+                [
+                                "Insyn",
+                                "Möjligheten att titta på byråkratin utifrån utan att ha den blekaste aning om vad som händer där inne."
+                ],
+                [
+                                "Kompromiss",
+                                "Ett beslut som gör alla inblandade djupt missnöjda, vilket i byråkratin anses som en succé."
+                ],
+                [
+                                "Långbänk",
+                                "Myndighetens favoritmöbel där alla viktiga frågor placeras på obestämd tid."
+                ],
+                [
+                                "Förtroendevald",
+                                "En person som har blivit vald för att lita blint på vad tjänstemännen lägger fram."
+                ],
+                [
+                                "Behovsanalys",
+                                "En undersökning som visar att vi akut behöver mer administrativ personal."
+                ],
+                [
+                                "Måluppfyllelse",
+                                "Att flytta mållinjen bakåt tills man har passerat den."
+                ],
+                [
+                                "Internrevision",
+                                "När myndigheten undersöker sig själv och glatt konstaterar att man har följt sina egna regler för att göra fel."
+                ],
+                [
+                                "Sidoordnad",
+                                "En kollega som har exakt samma luddiga arbetsbeskrivning som du, men tjänar mer."
+                ],
+                [
+                                "Dokumentation",
+                                "Att skriva ner vad man borde ha gjort, istället för att göra det."
+                ],
+                [
+                                "Byråkratisk intuition",
+                                "Förmågan att känna på sig vilket papper som kommer att bli efterfrågat om tre år och gömma det redan nu."
+                ],
+                [
+                                "Effektivitetsmål",
+                                "Ett tal som uppfinns av ledningen för att motivera varför ingen får köpa nya bläckpennor."
+                ],
+                [
+                                "Sekretessbelagt",
+                                "Information som är så tråkig att ingen ändå skulle vilja läsa den, utom journalister."
+                ],
+                [
+                                "Remissvar",
+                                "Ett artigt sätt att säga “tack för att vi fick titta på ert värdelösa förslag”."
+                ],
+                [
+                                "Arbetsbeskrivning",
+                                "En lista på arbetsuppgifter som du aldrig kommer att utföra eftersom du fyller i tidrapporter hela dagarna."
+                ],
+                [
+                                "Tidrapport",
+                                "Ett system där du lägger tre timmar i veckan på att bevisa att du har arbetat fyrtio timmar."
+                ],
+                [
+                                "Beslutsångest",
+                                "Myndighetens permanenta mentala tillstånd."
+                ],
+                [
+                                "Beredningsutskott",
+                                "Där man bestämmer vad man ska prata om på nästa möte där man ska bestämma vad man ska göra."
+                ],
+                [
+                                "Centralisering",
+                                "Att flytta beslutsfattandet så långt bort från verkligheten att ingen drabbas av konsekvenserna."
+                ],
+                [
+                                "Datalagring",
+                                "Att spara miljoner filer som ingen någonsin kommer att öppna igen, bara för säkerhets skull."
+                ],
+                [
+                                "Specialist",
+                                "En person som vet mer och mer om mindre och mindre, tills han vet absolut allt om ingenting."
+                ],
+                [
+                                "Generalist",
+                                "En person som vet mindre och mindre om mer och mer, tills han vet absolut ingenting om allt."
+                ],
+                [
+                                "Byråkratens bön",
+                                "“Gode Gud, låt inget hända idag som kräver ett omedelbart beslut.”"
+                ],
+                [
+                                "Presskonferens",
+                                "Ett tillfälle där man meddelar att man ska tillsätta en utredning om det som hände igår."
+                ],
+                [
+                                "Investeringsbudget",
+                                "Pengar som måste brännas före december, oavsett om vi köper guldpläterade gem eller ej."
+                ],
+                [
+                                "Kommittébetänkande",
+                                "En 800 sidor lång sömnmedicin som avslutas med ordet “kanske”."
+                ],
+                [
+                                "Tjänsteväg",
+                                "Den långa, snåriga stig som ett dokument måste vandra för att chefen ska kunna säga nej."
+                ],
+                [
+                                "Anställningsintervju",
+                                "En process där man söker efter den person som bäst kan dölja sin personlighet bakom floskler."
+                ],
+                [
+                                "Medarbetarsamtal",
+                                "Den årliga farsen där man låtsas prata om framtiden medan båda parter kollar på klockan."
+                ],
+                [
+                                "Friskvårdsbidrag",
+                                "Myndighetens sätt att kompensera för den ryggskada du får av att sitta på meningslösa möten."
+                ],
+                [
+                                "Erfarenhetsutbyte",
+                                "Att sitta i ett konferensrum i en annan stad och klaga på samma saker som hemma."
+                ],
+                [
+                                "Rutin",
+                                "Att göra fel på exakt samma sätt varje gång så att det blir en tradition."
+                ],
+                [
+                                "Undantagsregel",
+                                "En regel som är så svår att förstå att man måste tillsätta en ny avdelning för att tolka den."
+                ],
+                [
+                                "Blankettnummer",
+                                "Det viktigaste numret i en medborgares liv, tätt följt av personnumret."
+                ],
+                [
+                                "Handläggarstöd",
+                                "Ett dataprogram som är designat för att göra handläggarens jobb tre gånger så krångligt."
+                ],
+                [
+                                "Förvaltningslag",
+                                "En lagbok som förklarar hur man ska vara trevlig när man ger avslag."
+                ],
+                [
+                                "Offentlighetsprincipen",
+                                "Rätten att se alla papper som myndigheten inte har hunnit sekretessmarkera än."
+                ],
+                [
+                                "Svartbygge",
+                                "Ett hus som byggts utan att staten har fått sin del av kakan i form av administrativa avgifter."
+                ]
+];
+
+            const collator = new Intl.Collator('sv');
+            const sorted = ENTRIES.slice().sort((a, b) => collator.compare(a[0], b[0]));
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            /* ---------- Bygg ordboken ---------- */
+            const dlg = document.getElementById('ordbok');
+            const scroller = document.getElementById('ord-scroll');
+            const thumbsNav = document.getElementById('ord-thumbs');
+            const search = document.getElementById('ord-sok');
+            const status = document.getElementById('ord-status');
+            const blocks = [];
+
+            let current = null;
+            for (const [term, def] of sorted) {
+                const letter = term.charAt(0).toLocaleUpperCase('sv');
+                if (!current || current.letter !== letter) {
+                    const sec = document.createElement('section');
+                    sec.className = 'letter-block';
+                    const h = document.createElement('h3');
+                    h.textContent = letter;
+                    h.id = 'bokstav-' + letter;
+                    const cols = document.createElement('div');
+                    cols.className = 'cols';
+                    sec.append(h, cols);
+                    scroller.appendChild(sec);
+                    current = { letter, sec, cols, items: [] };
+                    blocks.push(current);
+                }
+                const p = document.createElement('p');
+                p.className = 'e';
+                const b = document.createElement('b');
+                b.textContent = term;
+                p.append(b, ' ' + def);
+                p.dataset.s = (term + ' ' + def).toLocaleLowerCase('sv');
+                current.cols.appendChild(p);
+                current.items.push(p);
+            }
+
+            const none = document.createElement('p');
+            none.className = 'tom';
+            none.hidden = true;
+            none.textContent = 'Inget uppslagsord hittades. Ärendet har diarieförts och lagts i källaren.';
+            scroller.appendChild(none);
+
+            for (const blk of blocks) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = blk.letter;
+                btn.setAttribute('aria-label', 'Gå till bokstaven ' + blk.letter);
+                btn.addEventListener('click', () => {
+                    scroller.scrollTo({ top: blk.sec.offsetTop - 4, behavior: reduceMotion ? 'auto' : 'smooth' });
+                });
+                thumbsNav.appendChild(btn);
+                blk.btn = btn;
+            }
+
+            function filter() {
+                const q = search.value.trim().toLocaleLowerCase('sv');
+                let n = 0;
+                for (const blk of blocks) {
+                    let any = false;
+                    for (const p of blk.items) {
+                        const hit = !q || p.dataset.s.includes(q);
+                        p.hidden = !hit;
+                        if (hit) { any = true; n++; }
+                    }
+                    blk.sec.hidden = !any;
+                    blk.btn.disabled = !any;
+                }
+                none.hidden = n > 0;
+                status.textContent = q ? (n + (n === 1 ? ' träff' : ' träffar')) : (sorted.length + ' uppslagsord');
+                updateActive();
+            }
+
+            function updateActive() {
+                const y = scroller.scrollTop + 12;
+                let active = null;
+                for (const blk of blocks) {
+                    if (blk.sec.hidden) continue;
+                    if (blk.sec.offsetTop <= y) active = blk;
+                }
+                for (const blk of blocks) {
+                    if (blk === active) blk.btn.setAttribute('aria-current', 'true');
+                    else blk.btn.removeAttribute('aria-current');
+                }
+            }
+
+            search.addEventListener('input', filter);
+            scroller.addEventListener('scroll', updateActive, { passive: true });
+            filter();
+
+            /* ---------- Öppna / stäng ---------- */
+            function openBook() {
+                search.value = '';
+                filter();
+                dlg.showModal();
+                scroller.scrollTop = 0;
+                updateActive();
+            }
+            document.getElementById('open-ordbok').addEventListener('click', function (e) { e.stopPropagation(); openBook(); });
+            document.getElementById('byrakrat-box').addEventListener('click', openBook);
+            document.getElementById('ord-close').addEventListener('click', () => dlg.close());
+            dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+
+            document.getElementById('antal-ord').textContent = sorted.length;
+
+            /* ---------- Dagens ord ---------- */
+            const dagens = sorted[Math.floor(Math.random() * sorted.length)];
+            document.getElementById('dagens-term').textContent = dagens[0];
+            document.getElementById('dagens-def').textContent = dagens[1];
+
+            /* ---------- Generator ---------- */
             const stonBtn = document.getElementById('ston-button');
             const output = document.getElementById('gen-output');
             const copyBtn = document.getElementById('copy-btn');
-            const details = document.getElementById('byrakrat-accordion');
-            const deviceBadge = document.getElementById('device-badge');
-            const counterBadge = document.getElementById('counter-badge');
-            const storageKey = 'stonPressCount';
-
-            function detectDevice() {
-                const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-                    (window.matchMedia && window.matchMedia('(pointer:coarse)').matches);
-
-                document.body.classList.toggle('device-mobile', isMobile);
-                document.body.classList.toggle('device-desktop', !isMobile);
-
-                if (deviceBadge) {
-                    deviceBadge.textContent = isMobile ? 'Mobilanpassad vy' : 'Datoranpassad vy';
-                }
-            }
-
-            function readPressCount() {
-                try {
-                    const value = Number(localStorage.getItem(storageKey) || 0);
-                    return Number.isFinite(value) ? value : 0;
-                } catch (error) {
-                    return 0;
-                }
-            }
-
-            function updateCounter(value) {
-                if (counterBadge) {
-                    counterBadge.textContent = 'Knapptryck: ' + value;
-                }
-            }
-
-            detectDevice();
-            window.addEventListener('resize', detectDevice);
-            window.addEventListener('orientationchange', detectDevice);
-
-            let pressCount = readPressCount();
-            updateCounter(pressCount);
 
             const subjects = ["klagomål", "överklagande", "ansökan", "begäran om omprövning", "komplettering"];
             const places = ["i källaren", "i en flyttlåda", "längst ner i högen", "i arkivet bakom arkivet", "i en pärm märkt 'Övrigt'"];
@@ -436,20 +1020,11 @@
             }
 
             stonBtn.addEventListener('click', function(){
-                pressCount += 1;
-                try {
-                    localStorage.setItem(storageKey, String(pressCount));
-                } catch (error) {
-                    // Ignoreras om webbläsaren blockerar localStorage.
-                }
-                updateCounter(pressCount);
-
                 stonBtn.classList.remove('shake');
                 void stonBtn.offsetWidth;
                 stonBtn.classList.add('shake');
                 output.textContent = pick();
                 setTimeout(()=> stonBtn.classList.remove('shake'), 400);
-                if (details && !details.open) details.open = true;
             });
 
             function flashCopied(){
