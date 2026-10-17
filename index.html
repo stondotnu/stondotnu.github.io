@@ -18,10 +18,8 @@
             --text: #222;
             --accent-red: #cc0000;
             --max-width: 1240px;
-            --paper: rgba(255, 255, 255, 0.97);
-            --paper-dark: #f3f2ed;
+            --paper: rgba(255,255,255,0.97);
             --ink: #102538;
-            --line: #d0d7de;
         }
 
         * { box-sizing: border-box; }
@@ -52,56 +50,11 @@
             white-space: nowrap; border: 0;
         }
 
-        .site-header {
-            position: fixed;
+        .ordlista-link {
+            position: absolute;
             top: 18px;
-            left: 18px;
             right: 18px;
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            z-index: 30;
-            pointer-events: none;
-        }
-
-        .agency-mark {
-            pointer-events: auto;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 12px 8px 12px;
-            background: rgba(12, 33, 60, 0.78);
-            border: 3px solid rgba(255,255,255,0.28);
-            border-radius: 14px;
-            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
-            backdrop-filter: blur(3px);
-        }
-
-        .agency-mark .mark {
-            width: 110px; height: 110px;
-            display: block;
-            flex: 0 0 auto;
-        }
-
-        .agency-mark .mark-label {
-            color: #fff;
-            font-family: "Arial Black", Impact, sans-serif;
-            font-size: 0.8rem;
-            letter-spacing: 0.14em;
-            line-height: 1.1;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-        }
-
-        .header-tools {
-            pointer-events: auto;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .ordlista-link,
-        .link-button {
+            z-index: 5;
             appearance: none;
             border: 3px solid var(--black);
             background: rgba(255,255,255,0.96);
@@ -112,16 +65,12 @@
             font-weight: 800;
             letter-spacing: 0.06em;
             text-transform: uppercase;
-            text-decoration: none;
             cursor: pointer;
             box-shadow: 0 5px 0 rgba(0,0,0,0.28);
             transition: transform 0.12s ease, box-shadow 0.12s ease;
         }
-
-        .ordlista-link:hover,
-        .link-button:hover { transform: translateY(-1px); }
-        .ordlista-link:active,
-        .link-button:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.28); }
+        .ordlista-link:hover { transform: translateY(-1px); }
+        .ordlista-link:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.28); }
 
         .grid-container {
             display: grid;
@@ -130,7 +79,7 @@
             max-width: var(--max-width);
             width: 100%;
             align-items: start;
-            margin-top: 130px;
+            margin-top: 12px;
         }
 
         .slogan {
@@ -182,9 +131,7 @@
         details[open] summary.accordion-header::after { content: '▲'; font-size: 1rem; font-weight: bold; }
         summary.accordion-header::after { content: '▼'; font-size: 1rem; font-weight: bold; }
 
-        .accordion-content {
-            padding: 16px 18px 18px;
-        }
+        .accordion-content { padding: 16px 18px 18px; }
 
         .dictionary-item {
             margin-bottom: 14px;
@@ -227,7 +174,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .launch-base::before {
             content: '';
             position: absolute;
@@ -235,7 +181,6 @@
             border-radius: 50%;
             background: repeating-conic-gradient(var(--black) 0 7.5deg, var(--yellow) 7.5deg 15deg);
         }
-
         .launch-base::after {
             content: '';
             position: absolute;
@@ -295,7 +240,6 @@
             color: #fff;
             box-shadow: 0 4px 0 rgba(0,0,0,0.22);
         }
-
         .counter-badge {
             background: rgba(255,255,255,0.88);
             color: var(--black);
@@ -310,7 +254,6 @@
             text-shadow: 2px 2px 0px var(--black);
             letter-spacing: 0.04em;
         }
-
         .myndighet-sub {
             color: #fff;
             font-size: 1.02rem;
@@ -355,21 +298,7 @@
 
         @media (max-width: 900px) {
             body { padding: 16px; }
-            .site-header {
-                top: 10px; left: 10px; right: 10px;
-                align-items: flex-start;
-            }
-            .agency-mark {
-                padding: 8px 10px 8px 10px;
-            }
-            .agency-mark .mark {
-                width: 78px; height: 78px;
-            }
-            .agency-mark .mark-label {
-                font-size: 0.6rem;
-                letter-spacing: 0.09em;
-            }
-            .grid-container { display: flex; flex-direction: column; margin-top: 120px; }
+            .grid-container { display: flex; flex-direction: column; }
             .slogan { text-align: center; order: -1; }
             .center-zone { order: 0; }
             .launch-base { width: 250px; height: 250px; }
@@ -381,7 +310,6 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            margin-top: 110px;
         }
 
         body.device-mobile .slogan {
@@ -404,182 +332,12 @@
             font-size: 0.72rem;
             padding: 7px 10px;
         }
-
-        .ordlista-panel {
-            position: fixed;
-            inset: 120px 8% auto 8%;
-            max-width: 1100px;
-            margin: 0 auto;
-            background: rgba(244,240,232,0.98);
-            border: 4px solid var(--black);
-            border-radius: 12px;
-            box-shadow: 0 20px 32px rgba(0,0,0,0.25);
-            z-index: 40;
-            display: none;
-            overflow: hidden;
-        }
-
-        .ordlista-panel.open { display: block; }
-
-        .ordlista-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 18px 22px;
-            border-bottom: 3px solid var(--black);
-            background: linear-gradient(180deg, #f8f4e9, #ece3d1);
-        }
-
-        .ordlista-header h3 {
-            margin: 0;
-            font-family: "Arial Black", Impact, sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            color: var(--black);
-        }
-
-        .ordlista-body {
-            display: grid;
-            grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
-            min-height: 620px;
-        }
-
-        .dictionary-nav {
-            background: #e8e1d5;
-            border-right: 3px solid var(--black);
-            padding: 14px;
-            overflow: auto;
-            max-height: 70vh;
-        }
-
-        .dictionary-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .dictionary-entry {
-            text-align: left;
-            width: 100%;
-            background: rgba(255,255,255,0.45);
-            border: 2px solid var(--black);
-            border-radius: 10px;
-            padding: 10px 12px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--ink);
-            cursor: pointer;
-            transition: background 0.15s ease, transform 0.15s ease;
-        }
-
-        .dictionary-entry:hover,
-        .dictionary-entry.active {
-            background: #fff;
-            transform: translateX(2px);
-        }
-
-        .dictionary-detail {
-            background: #f7f6f3;
-            padding: 22px 26px 26px;
-            overflow: auto;
-            max-height: 70vh;
-        }
-
-        .dictionary-detail h4 {
-            font-size: clamp(1.5rem, 2vw, 2.2rem);
-            margin: 0 0 12px 0;
-            color: var(--blue-2);
-            border-bottom: 3px solid var(--black);
-            padding-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .dictionary-detail p {
-            margin: 0;
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--ink);
-            font-family: Georgia, "Times New Roman", serif;
-        }
-
-        @media (max-width: 900px) {
-            .ordlista-panel {
-                inset: 120px 8px auto 8px;
-            }
-            .ordlista-body {
-                grid-template-columns: 1fr;
-            }
-            .dictionary-nav {
-                max-height: 280px;
-                border-right: none;
-                border-bottom: 3px solid var(--black);
-            }
-            .dictionary-detail {
-                max-height: 420px;
-            }
-        }
     </style>
 </head>
 <body>
+    <button id="ordlistaToggle" class="ordlista-link" type="button" aria-expanded="false">Ordlista</button>
+
     <h1 class="sr-only">STÖN.NU - Statens Överklagandenämnd</h1>
-
-    <header class="site-header" aria-label="Sidhuvud">
-        <div class="agency-mark" aria-label="Statens överklagandenämnd logotyp">
-            <svg class="mark" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="STÖN.NU logotyp">
-                <defs>
-                    <linearGradient id="shield2" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0" stop-color="#1d7cc5"/>
-                        <stop offset="1" stop-color="#0a2f5c"/>
-                    </linearGradient>
-                    <linearGradient id="steel2" x1="0" x2="1">
-                        <stop offset="0" stop-color="#eff3f5"/>
-                        <stop offset="1" stop-color="#8a9197"/>
-                    </linearGradient>
-                    <g id="clamp2">
-                        <rect x="-8" y="-72" width="16" height="138" rx="7" fill="url(#steel2)" stroke="#000" stroke-width="2.5"/>
-                        <polygon points="-11,-67 -26,-110 -10,-90 -2,-66" fill="url(#steel2)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
-                        <polygon points="11,-67 26,-110 10,-90 2,-66" fill="url(#steel2)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
-                        <polygon points="-5,-89 5,-89 0,-66" fill="#5a0000"/>
-                        <polygon points="-19,-99 -11,-91 -16,-84" fill="#fff" stroke="#000" stroke-width="1.2"/>
-                        <polygon points="19,-99 11,-91 16,-84" fill="#fff" stroke="#000" stroke-width="1.2"/>
-                    </g>
-                </defs>
-                <g transform="translate(100,100) rotate(-35)"><use href="#clamp2"/></g>
-                <g transform="translate(100,100) rotate(35)"><use href="#clamp2"/></g>
-                <path d="M100 35 L152 56 L152 110 Q152 142 100 167 Q48 142 48 110 L48 56 Z" fill="url(#shield2)" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
-                <path d="M100 46 L138 63 L138 108 Q138 134 100 154 Q62 134 62 108 L62 63 Z" fill="none" stroke="#FFCD00" stroke-width="2"/>
-                <rect x="84" y="52" width="12" height="108" fill="#FFCD00"/>
-                <rect x="55" y="86" width="92" height="12" fill="#FFCD00"/>
-                <circle cx="90" cy="92" r="16" fill="#003366" stroke="#FFCD00" stroke-width="3"/>
-                <path d="M82 85 V99 M98 85 V92" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-                <path d="M82 85 H98" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="9 4" fill="none"/>
-            </svg>
-            <div class="mark-label">Statens<br>Överklagandenämnd</div>
-        </div>
-
-        <div class="header-tools">
-            <button class="ordlista-link" id="ordlistaToggle" type="button">Ordlista</button>
-        </div>
-    </header>
-
-    <div class="ordlista-panel" id="ordlistaPanel" aria-live="polite" aria-label="Byråkratsvensk ordlista">
-        <div class="ordlista-header">
-            <h3>Byråkratsvenska för nybörjare</h3>
-            <button class="link-button" id="closeOrdlista" type="button">Stäng</button>
-        </div>
-        <div class="ordlista-body">
-            <nav class="dictionary-nav" aria-label="Ordlista index">
-                <div class="dictionary-list" id="dictionaryList"></div>
-            </nav>
-            <div class="dictionary-detail" id="dictionaryDetail">
-                <h4>Kommitté</h4>
-                <p>En grupp människor som ensamma inte kan göra någonting, men som tillsammans kan besluta att ingenting kan göras.</p>
-            </div>
-        </div>
-    </div>
 
     <div class="grid-container" id="main-grid">
         <div class="slogan" aria-hidden="true">"Vi river upp dina förhoppningar,<br>ett beslut i taget"</div>
@@ -602,12 +360,144 @@
                     <div class="dictionary-item"><strong>"Välvillig tolkning"</strong><br>➔ Betyder: Vi hittade inget kryphål för att neka dig direkt, men vi letar fortfarande.</div>
                     <div class="dictionary-item"><strong>"Ärendet är avslutat"</strong><br>➔ Betyder: Sluta ring oss, vi har blockerat ditt nummer i växeln.</div>
                     <div class="dictionary-item"><strong>"Kompletterande uppgifter"</strong><br>➔ Betyder: Vi har tappat bort dina papper och behöver nya så att vi kan tappa bort dem också.</div>
+                    <div class="dictionary-item"><strong>Kommitté</strong><br>En grupp människor som ensamma inte kan göra någonting, men som tillsammans kan besluta att ingenting kan göras.</div>
+                    <div class="dictionary-item"><strong>Blankett</strong><br>Ett papper som bevisar att du existerar, förutsatt att du fyller i det i tre exemplar.</div>
+                    <div class="dictionary-item"><strong>Handläggningstid</strong><br>Den tid det tar för ett papper att flyttas från den övre dokumentkorgen till den nedre.</div>
+                    <div class="dictionary-item"><strong>Diarieföring</strong><br>Konsten att gömma ett dokument så officiellt att ingen någonsin kan hitta det igen.</div>
+                    <div class="dictionary-item"><strong>Möte</strong><br>Ett alternativ till arbete där man protokollerar varför ingenting blir gjort.</div>
+                    <div class="dictionary-item"><strong>Tjänsteanteckning</strong><br>Ett skriftligt bevis på att det inte var mitt fel.</div>
+                    <div class="dictionary-item"><strong>Beslutsfattare</strong><br>En person som skriver under dokument han inte har läst, baserat på rapporter skrivna av folk som inte förstår problemet.</div>
+                    <div class="dictionary-item"><strong>Remissrunda</strong><br>Att skicka ett problem i cirklar tills alla inblandade har glömt vad ursprungsfrågan handlade om.</div>
+                    <div class="dictionary-item"><strong>Riktlinje</strong><br>En regel som är för luddig för att följas, men tillräckligt strikt för att bestraffa dig med.</div>
+                    <div class="dictionary-item"><strong>Avslag</strong><br>Myndighetens standardrespons för att testa hur desperat du faktiskt är.</div>
+                    <div class="dictionary-item"><strong>Omorganisering</strong><br>Att flytta runt stolarna på Titanic i hopp om att isberget ska missa.</div>
+                    <div class="dictionary-item"><strong>Pressekreterare</strong><br>En person vars jobb är att svara på frågor utan att använda ord som betyder något.</div>
+                    <div class="dictionary-item"><strong>Kompetensutveckling</strong><br>En obligatorisk kurs i hur man använder ett datorsystem som kommer att skrotas nästa månad.</div>
+                    <div class="dictionary-item"><strong>Arbetsgrupp</strong><br>En samling anställda som träffas regelbundet för att skjuta upp ett beslut.</div>
+                    <div class="dictionary-item"><strong>Bilaga</strong><br>En textremsa som läggs till för att göra huvuddokumentet helt oläsligt.</div>
+                    <div class="dictionary-item"><strong>Vision</strong><br>En vacker formulering som tas fram av konsulter för att dölja att verksamheten saknar mål.</div>
+                    <div class="dictionary-item"><strong>Utdredning</strong><br>Konsten att spendera miljoner på att ta reda på det som fackförbundet sa gratis för tre år sedan.</div>
+                    <div class="dictionary-item"><strong>Budget</strong><br>En fiktiv tabell med siffror som visar hur mycket pengar vi skulle ha sparat om vi inte hade lagt dem på att göra budgeten.</div>
+                    <div class="dictionary-item"><strong>Effektivisering</strong><br>Att sparka de tre personerna som faktiskt gör jobbet och anställa två nya chefer.</div>
+                    <div class="dictionary-item"><strong>Kvalitetssäkring</strong><br>Processen att kontrollera att blanketterna fylls i korrekt, oavsett hur fel resultatet blir.</div>
+                    <div class="dictionary-item"><strong>Samordnare</strong><br>En person som har till uppgift att se till att ingen gör något utan att alla andra vet om det.</div>
+                    <div class="dictionary-item"><strong>Strategidokument</strong><br>En tjock pärm som samlar damm och skyddar skrivbordet mot repor.</div>
+                    <div class="dictionary-item"><strong>Core-business</strong><br>Det man slutade göra när man fick råd att anställa administration.</div>
+                    <div class="dictionary-item"><strong>Synergieffekt</strong><br>När två avdelningar slås ihop och blir hälften så snabba till dubbla kostnaden.</div>
+                    <div class="dictionary-item"><strong>Utvärdering</strong><br>En rapport som visar att allt gick jättebra, skriven av den som var ansvarig för katastrofen.</div>
+                    <div class="dictionary-item"><strong>Handläggare</strong><br>En mänsklig brandvägg mellan medborgaren och det sunda förnuftet.</div>
+                    <div class="dictionary-item"><strong>Allmänna handlingar</strong><br>Dokument som är helt öppna för allmänheten, så länge allmänheten vet exakt vilket diarienummer de har.</div>
+                    <div class="dictionary-item"><strong>Fika</strong><br>Den enda produktiva kvarten på en hel arbetsdag på myndigheten.</div>
+                    <div class="dictionary-item"><strong>Arbetsplatsträff</strong><br>Ett forum där man diskuterar varför ingen hinner arbeta på grund av alla möten.</div>
+                    <div class="dictionary-item"><strong>Delegera</strong><br>Att skicka ansvaret nedåt och behålla äran uppåt.</div>
+                    <div class="dictionary-item"><strong>Projektledare</strong><br>En person som tror att nio kvinnor kan föda ett barn på en månad.</div>
+                    <div class="dictionary-item"><strong>Tillsynsmyndighet</strong><br>Organet som dundrar in efter att striden är över och skjuter de sårade.</div>
+                    <div class="dictionary-item"><strong>Kommunikationsstrategi</strong><br>En plan för hur man bäst döljer att man inte har något att säga.</div>
+                    <div class="dictionary-item"><strong>Systemfel</strong><br>Den perfekta syndabocken eftersom den inte kan fackligt organisera sig eller försvara sig.</div>
+                    <div class="dictionary-item"><strong>Värdegrund</strong><br>En lista med fina ord som hänger i fikarummet så att ledningen slipper leva efter dem.</div>
+                    <div class="dictionary-item"><strong>Prioritera</strong><br>Att välja vilket ärende som ska ligga orört längst.</div>
+                    <div class="dictionary-item"><strong>Arkiv</strong><br>Där goda idéer går för att dö i bokstavsordning.</div>
+                    <div class="dictionary-item"><strong>Konsult</strong><br>En person som tar din klocka för att berätta vad klockan är, och sedan behåller klockan.</div>
+                    <div class="dictionary-item"><strong>Avvikelserapport</strong><br>Ett dokument du måste fylla i när du råkar göra något effektivt.</div>
+                    <div class="dictionary-item"><strong>Styrgrupp</strong><br>En samling chefer som pekar åt olika håll medan båten sjunker.</div>
+                    <div class="dictionary-item"><strong>Digitalisering</strong><br>Att ersätta en långsam pappersblankett med en ännu långsammare PDF-blankett som måste skrivas ut och skrivas under för hand.</div>
+                    <div class="dictionary-item"><strong>Upphandling</strong><br>Processen där man väljer det billigaste alternativet för att sedan betala tre gånger så mycket i tilläggsavgifter.</div>
+                    <div class="dictionary-item"><strong>Regelverk</strong><br>En labyrint där väggarna flyttar sig varje gång du tror att du hittat ut.</div>
+                    <div class="dictionary-item"><strong>Kundtjänst</strong><br>En telefonsvarare som berättar hur viktig du är medan du står på plats 42 i kön.</div>
+                    <div class="dictionary-item"><strong>Handlingsplan</strong><br>En skriftlig bekräftelse på att vi vet vad vi borde göra, men inte tänker göra det.</div>
+                    <div class="dictionary-item"><strong>Tjänstefel</strong><br>Något som bara existerar om det inte går att skylla på en diffus underavdelning.</div>
+                    <div class="dictionary-item"><strong>Generaldirektör</strong><br>En person som byts ut var fjärde år så att ingen hinner ställa dem till svars.</div>
+                    <div class="dictionary-item"><strong>Ansvarsfrihet</strong><br>Det magiska ögonblicket då revisorerna förlåter ledningen för att ha bränt budgeten.</div>
+                    <div class="dictionary-item"><strong>Tidsplan</strong><br>En optimistisk gissning som revideras veckovist fram till det oundvikliga uppskovet.</div>
+                    <div class="dictionary-item"><strong>Milstolpe</strong><br>Det datum då man formellt firar att man är tre månader efter i tidsplanen.</div>
+                    <div class="dictionary-item"><strong>Flödesschema</strong><br>En teckning som visar hur ett ärende vandrar genom sju olika rum för att slutligen hamna i papperskorgen.</div>
+                    <div class="dictionary-item"><strong>Kravspecifikation</strong><br>En önskelista skriven av folk som inte vet vad de vill ha, till folk som inte förstår vad de menar.</div>
+                    <div class="dictionary-item"><strong>Remissinstans</strong><br>En organisation vars enda uppgift är att säga "det här berör inte oss, men vi är emot det".</div>
+                    <div class="dictionary-item"><strong>Avstämning</strong><br>Ett möte för att kontrollera om det förra mötet ledde till att någon gjorde det som bestämdes på mötet innan dess.</div>
+                    <div class="dictionary-item"><strong>Sektionschef</strong><br>En person som står mellan hammaren och städet och löser problemet genom att sjukskriva sig.</div>
+                    <div class="dictionary-item"><strong>Sakkunnig</strong><br>En person som vet exakt varför ingenting av det du föreslår är juridiskt möjligt.</div>
+                    <div class="dictionary-item"><strong>Tolkning</strong><br>Konsten att läsa en lagtext så att den passar myndighetens nuvarande schema.</div>
+                    <div class="dictionary-item"><strong>Arbetsklimat</strong><br>Hur varmt det blir i fikarummet när centraliseringen diskuteras.</div>
+                    <div class="dictionary-item"><strong>Policy</strong><br>Ett dokument som skapats för att förhindra att anställda använder sitt egna sunda förnuft.</div>
+                    <div class="dictionary-item"><strong>Verksamhetsberättelse</strong><br>En skönlitterär sammanfattning av året som gått.</div>
+                    <div class="dictionary-item"><strong>Standardformulär</strong><br>Ett dokument utformat för att passa ingen, men som måste fyllas i av alla.</div>
+                    <div class="dictionary-item"><strong>Tjänsteärende</strong><br>Den minsta mätbara enheten av byråkratisk tröghet.</div>
+                    <div class="dictionary-item"><strong>Chefskap</strong><br>Konsten att ta åt sig äran för det underställda gjort och skylla på systemet när det skiter sig.</div>
+                    <div class="dictionary-item"><strong>Insyn</strong><br>Möjligheten att titta på byråkratin utifrån utan att ha den blekaste aning om vad som händer där inne.</div>
+                    <div class="dictionary-item"><strong>Kompromiss</strong><br>Ett beslut som gör alla inblandade djupt missnöjda, vilket i byråkratin anses som en succé.</div>
+                    <div class="dictionary-item"><strong>Långbänk</strong><br>Myndighetens favoritmöbel där alla viktiga frågor placeras på obestämd tid.</div>
+                    <div class="dictionary-item"><strong>Förtroendevald</strong><br>En person som har blivit vald för att lita blint på vad tjänstemännen lägger fram.</div>
+                    <div class="dictionary-item"><strong>Behovsanalys</strong><br>En undersökning som visar att vi akut behöver mer administrativ personal.</div>
+                    <div class="dictionary-item"><strong>Måluppfyllelse</strong><br>Att flytta mållinjen bakåt tills man har passerat den.</div>
+                    <div class="dictionary-item"><strong>Internrevision</strong><br>När myndigheten undersöker sig själv och glatt konstaterar att man har följt sina egna regler för att göra fel.</div>
+                    <div class="dictionary-item"><strong>Sidoordnad</strong><br>En kollega som har exakt samma luddiga arbetsbeskrivning som du, men tjänar mer.</div>
+                    <div class="dictionary-item"><strong>Dokumentation</strong><br>Att skriva ner vad man borde ha gjort, istället för att göra det.</div>
+                    <div class="dictionary-item"><strong>Byråkratisk intuition</strong><br>Förmågan att känna på sig vilket papper som kommer att bli efterfrågat om tre år och gömma det redan nu.</div>
+                    <div class="dictionary-item"><strong>Effektivitetsmål</strong><br>Ett tal som uppfinns av ledningen för att motivera varför ingen får köpa nya bläckpennor.</div>
+                    <div class="dictionary-item"><strong>Sekretessbelagt</strong><br>Information som är så tråkig att ingen ändå skulle vilja läsa den, utom journalister.</div>
+                    <div class="dictionary-item"><strong>Remissvar</strong><br>Ett artigt sätt att säga "tack för att vi fick titta på ert värdelösa förslag".</div>
+                    <div class="dictionary-item"><strong>Arbetsbeskrivning</strong><br>En lista på arbetsuppgifter som du aldrig kommer att utföra eftersom du fyller i tidrapporter hela dagarna.</div>
+                    <div class="dictionary-item"><strong>Tidrapport</strong><br>Ett system där du lägger tre timmar i veckan på att bevisa att du har arbetat fyrtio timmar.</div>
+                    <div class="dictionary-item"><strong>Beslutsångest</strong><br>Myndighetens permanenta mentala tillstånd.</div>
+                    <div class="dictionary-item"><strong>Beredningsutskott</strong><br>Där man bestämmer vad man ska prata om på nästa möte där man ska bestämma vad man ska göra.</div>
+                    <div class="dictionary-item"><strong>Centralisering</strong><br>Att flytta beslutsfattandet så långt bort från verkligheten att ingen drabbas av konsekvenserna.</div>
+                    <div class="dictionary-item"><strong>Datalagring</strong><br>Att spara miljoner filer som ingen någonsin kommer att öppna igen, bara för säkerhets skull.</div>
+                    <div class="dictionary-item"><strong>Specialist</strong><br>En person som vet mer och mer om mindre och mindre, tills han vet absolut allt om ingenting.</div>
+                    <div class="dictionary-item"><strong>Generalist</strong><br>En person som vet mindre och mindre om mer och mer, tills han vet absolut ingenting om allt.</div>
+                    <div class="dictionary-item"><strong>Byråkratens bön</strong><br>"Gode Gud, låt inget hända idag som kräver ett omedelbart beslut."</div>
+                    <div class="dictionary-item"><strong>Presskonferens</strong><br>Ett tillfälle där man meddelar att man ska tillsätta en utredning om det som hände igår.</div>
+                    <div class="dictionary-item"><strong>Investeringsbudget</strong><br>Pengar som måste brännas före december, oavsett om vi köper guldpläterade gem eller ej.</div>
+                    <div class="dictionary-item"><strong>Kommittébetänkande</strong><br>En 800 sidor lång sömnmedicin som avslutas med ordet "kanske".</div>
+                    <div class="dictionary-item"><strong>Tjänsteväg</strong><br>Den långa, snåriga stig som ett dokument måste vandra för att chefen ska kunna säga nej.</div>
+                    <div class="dictionary-item"><strong>Anställningsintervju</strong><br>En process där man söker efter den person som bäst kan dölja sin personlighet bakom floskler.</div>
+                    <div class="dictionary-item"><strong>Medarbetarsamtal</strong><br>Den årliga farsen där man låtsas prata om framtiden medan båda parter kollar på klockan.</div>
+                    <div class="dictionary-item"><strong>Friskvårdsbidrag</strong><br>Myndighetens sätt att kompensera för den ryggskada du får av att sitta på meningslösa möten.</div>
+                    <div class="dictionary-item"><strong>Erfarenhetsutbyte</strong><br>Att sitta i ett konferensrum i en annan stad och klaga på samma saker som hemma.</div>
+                    <div class="dictionary-item"><strong>Rutin</strong><br>Att göra fel på exakt samma sätt varje gång så att det blir en tradition.</div>
+                    <div class="dictionary-item"><strong>Undantagsregel</strong><br>En regel som är så svår att förstå att man måste tillsätta en ny avdelning för att tolka den.</div>
+                    <div class="dictionary-item"><strong>Blankettnummer</strong><br>Det viktigaste numret i en medborgares liv, tätt följt av personnumret.</div>
+                    <div class="dictionary-item"><strong>Handläggarstöd</strong><br>Ett dataprogram som är designat för att göra handläggarens jobb tre gånger så krångligt.</div>
+                    <div class="dictionary-item"><strong>Förvaltningslag</strong><br>En lagbok som förklarar hur man ska vara trevlig när man ger avslag.</div>
+                    <div class="dictionary-item"><strong>Offentlighetsprincipen</strong><br>Rätten att se alla papper som myndigheten inte har hunnit sekretessmarkera än.</div>
+                    <div class="dictionary-item"><strong>Svartbygge</strong><br>Ett hus som byggts utan att staten har fått sin del av kakan i form av administrativa avgifter.</div>
                 </div>
             </div>
         </details>
 
         <div class="center-zone" role="region" aria-labelledby="centrum-title">
             <div class="kicker">Satir, ironi &amp; humor</div>
+
+            <svg class="myndighet-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logo-title logo-desc" style="width: 240px; height: 240px; margin-bottom: 20px; filter: drop-shadow(0px 10px 12px rgba(0,0,0,0.6));">
+                <title id="logo-title">STÖN.NU logotyp</title>
+                <desc id="logo-desc">En blå sköld med gult kors och en avbruten häftklammer.</desc>
+                <defs>
+                    <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stop-color="#0066b3"/>
+                        <stop offset="1" stop-color="#003366"/>
+                    </linearGradient>
+                    <linearGradient id="steel" x1="0" x2="1">
+                        <stop offset="0" stop-color="#e8e8e8"/>
+                        <stop offset="1" stop-color="#8d8d8d"/>
+                    </linearGradient>
+                    <g id="remover">
+                        <rect x="-7" y="-70" width="14" height="128" rx="6" fill="url(#steel)" stroke="#000" stroke-width="2.5"/>
+                        <polygon points="-9,-66 -19,-104 -6,-86 -1,-66" fill="url(#steel)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+                        <polygon points="9,-66 19,-104 6,-86 1,-66" fill="url(#steel)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+                        <polygon points="-5,-84 5,-84 0,-66" fill="#5a0000"/>
+                        <polygon points="-17,-96 -9,-90 -15,-84" fill="#fff" stroke="#000" stroke-width="1"/>
+                        <polygon points="17,-96 9,-90 15,-84" fill="#fff" stroke="#000" stroke-width="1"/>
+                    </g>
+                </defs>
+                <g transform="translate(100,100) rotate(-35)"><use href="#remover"/></g>
+                <g transform="translate(100,100) rotate(35)"><use href="#remover"/></g>
+                <path d="M100 42 L150 60 L150 112 Q150 142 100 166 Q50 142 50 112 L50 60 Z" fill="url(#shield)" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+                <path d="M100 50 L142 65 L142 112 Q142 136 100 157 Q58 136 58 112 L58 65 Z" fill="none" stroke="#FFCD00" stroke-width="2"/>
+                <rect x="84" y="52" width="12" height="108" fill="#FFCD00"/>
+                <rect x="55" y="86" width="92" height="12" fill="#FFCD00"/>
+                <circle cx="90" cy="92" r="15" fill="#003366" stroke="#FFCD00" stroke-width="3"/>
+                <path d="M82 86 V98 M98 86 V93" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                <path d="M82 86 H98" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="9 4" fill="none"/>
+            </svg>
 
             <div class="launch-base">
                 <button id="ston-button" class="ston-button" aria-label="Tryck för stön">STÖN</button>
@@ -618,7 +508,7 @@
                 <span id="counter-badge" class="counter-badge">Knapptryck: 0</span>
             </div>
 
-            <div class="myndighet-titel" id="centrum-title">Statens överklagandenämnd</div>
+            <div class="myndighet-titel" id="centrum-title">STATENS ÖVERKLAGANDENÄMND</div>
             <div class="myndighet-sub">"För dig som jobbar inom staten – eller bara försökt förstå ett beslut från den"</div>
         </div>
 
@@ -632,160 +522,14 @@
 
     <script>
         (function(){
-            const dictionaryEntries = [
-                { term: 'Kommitté', definition: 'En grupp människor som ensamma inte kan göra någonting, men som tillsammans kan besluta att ingenting kan göras.' },
-                { term: 'Blankett', definition: 'Ett papper som bevisar att du existerar, förutsatt att du fyller i det i tre exemplar.' },
-                { term: 'Handläggningstid', definition: 'Den tid det tar för ett papper att flyttas från den övre dokumentkorgen till den nedre.' },
-                { term: 'Diarieföring', definition: 'Konsten att gömma ett dokument så officiellt att ingen någonsin kan hitta det igen.' },
-                { term: 'Möte', definition: 'Ett alternativ till arbete där man protokollerar varför ingenting blir gjort.' },
-                { term: 'Tjänsteanteckning', definition: 'Ett skriftligt bevis på att det inte var mitt fel.' },
-                { term: 'Beslutsfattare', definition: 'En person som skriver under dokument han inte har läst, baserat på rapporter skrivna av folk som inte förstår problemet.' },
-                { term: 'Remissrunda', definition: 'Att skicka ett problem i cirklar tills alla inblandade har glömt vad ursprungsfrågan handlade om.' },
-                { term: 'Riktlinje', definition: 'En regel som är för luddig för att följas, men tillräckligt strikt för att bestraffa dig med.' },
-                { term: 'Avslag', definition: 'Myndighetens standardrespons för att testa hur desperat du faktiskt är.' },
-                { term: 'Omorganisering', definition: 'Att flytta runt stolarna på Titanic i hopp om att isberget ska missa.' },
-                { term: 'Pressekreterare', definition: 'En person vars jobb är att svara på frågor utan att använda ord som betyder något.' },
-                { term: 'Kompetensutveckling', definition: 'En obligatorisk kurs i hur man använder ett datorsystem som kommer att skrotas nästa månad.' },
-                { term: 'Arbetsgrupp', definition: 'En samling anställda som träffas regelbundet för att skjuta upp ett beslut.' },
-                { term: 'Bilaga', definition: 'En textremsa som läggs till för att göra huvuddokumentet helt oläsligt.' },
-                { term: 'Vision', definition: 'En vacker formulering som tas fram av konsulter för att dölja att verksamheten saknar mål.' },
-                { term: 'Utdredning', definition: 'Konsten att spendera miljoner på att ta reda på det som fackförbundet sa gratis för tre år sedan.' },
-                { term: 'Budget', definition: 'En fiktiv tabell med siffror som visar hur mycket pengar vi skulle ha sparat om vi inte hade lagt dem på att göra budgeten.' },
-                { term: 'Effektivisering', definition: 'Att sparka de tre personerna som faktiskt gör jobbet och anställa två nya chefer.' },
-                { term: 'Kvalitetssäkring', definition: 'Processen att kontrollera att blanketterna fylls i korrekt, oavsett hur fel resultatet blir.' },
-                { term: 'Samordnare', definition: 'En person som har till uppgift att se till att ingen gör något utan att alla andra vet om det.' },
-                { term: 'Strategidokument', definition: 'En tjock pärm som samlar damm och skyddar skrivbordet mot repor.' },
-                { term: 'Core-business', definition: 'Det man slutade göra när man fick råd att anställa administration.' },
-                { term: 'Synergieffekt', definition: 'När två avdelningar slås ihop och blir hälften så snabba till dubbla kostnaden.' },
-                { term: 'Utvärdering', definition: 'En rapport som visar att allt gick jättebra, skriven av den som var ansvarig för katastrofen.' },
-                { term: 'Handläggare', definition: 'En mänsklig brandvägg mellan medborgaren och det sunda förnuftet.' },
-                { term: 'Allmänna handlingar', definition: 'Dokument som är helt öppna för allmänheten, så länge allmänheten vet exakt vilket diarienummer de har.' },
-                { term: 'Fika', definition: 'Den enda produktiva kvarten på en hel arbetsdag på myndigheten.' },
-                { term: 'Arbetsplatsträff', definition: 'Ett forum där man diskuterar varför ingen hinner arbeta på grund av alla möten.' },
-                { term: 'Delegera', definition: 'Att skicka ansvaret nedåt och behålla äran uppåt.' },
-                { term: 'Projektledare', definition: 'En person som tror att nio kvinnor kan föda ett barn på en månad.' },
-                { term: 'Tillsynsmyndighet', definition: 'Organet som dundrar in efter att striden är över och skjuter de sårade.' },
-                { term: 'Kommunikationsstrategi', definition: 'En plan för hur man bäst döljer att man inte har något att säga.' },
-                { term: 'Systemfel', definition: 'Den perfekta syndabocken eftersom den inte kan fackligt organisera sig eller försvara sig.' },
-                { term: 'Värdegrund', definition: 'En lista med fina ord som hänger i fikarummet så att ledningen slipper leva efter dem.' },
-                { term: 'Prioritera', definition: 'Att välja vilket ärende som ska ligga orört längst.' },
-                { term: 'Arkiv', definition: 'Där goda idéer går för att dö i bokstavsordning.' },
-                { term: 'Konsult', definition: 'En person som tar din klocka för att berätta vad klockan är, och sedan behåller klockan.' },
-                { term: 'Avvikelserapport', definition: 'Ett dokument du måste fylla i när du råkar göra något effektivt.' },
-                { term: 'Styrgrupp', definition: 'En samling chefer som pekar åt olika håll medan båten sjunker.' },
-                { term: 'Digitalisering', definition: 'Att ersätta en långsam pappersblankett med en ännu långsammare PDF-blankett som måste skrivas ut och skrivas under för hand.' },
-                { term: 'Upphandling', definition: 'Processen där man väljer det billigaste alternativet för att sedan betala tre gånger så mycket i tilläggsavgifter.' },
-                { term: 'Regelverk', definition: 'En labyrint där väggarna flyttar sig varje gång du tror att du hittat ut.' },
-                { term: 'Kundtjänst', definition: 'En telefonsvarare som berättar hur viktig du är medan du står på plats 42 i kön.' },
-                { term: 'Handlingsplan', definition: 'En skriftlig bekräftelse på att vi vet vad vi borde göra, men inte tänker göra det.' },
-                { term: 'Tjänstefel', definition: 'Något som bara existerar om det inte går att skylla på en diffus underavdelning.' },
-                { term: 'Generaldirektör', definition: 'En person som byts ut var fjärde år så att ingen hinner ställa dem till svars.' },
-                { term: 'Ansvarsfrihet', definition: 'Det magiska ögonblicket då revisorerna förlåter ledningen för att ha bränt budgeten.' },
-                { term: 'Tidsplan', definition: 'En optimistisk gissning som revideras veckovist fram till det oundvikliga uppskovet.' },
-                { term: 'Milstolpe', definition: 'Det datum då man formellt firar att man är tre månader efter i tidsplanen.' },
-                { term: 'Flödesschema', definition: 'En teckning som visar hur ett ärende vandrar genom sju olika rum för att slutligen hamna i papperskorgen.' },
-                { term: 'Kravspecifikation', definition: 'En önskelista skriven av folk som inte vet vad de vill ha, till folk som inte förstår vad de menar.' },
-                { term: 'Remissinstans', definition: 'En organisation vars enda uppgift är att säga "det här berör inte oss, men vi är emot det".' },
-                { term: 'Avstämning', definition: 'Ett möte för att kontrollera om det förra mötet ledde till att någon gjorde det som bestämdes på mötet innan dess.' },
-                { term: 'Sektionschef', definition: 'En person som står mellan hammaren och städet och löser problemet genom att sjukskriva sig.' },
-                { term: 'Sakkunnig', definition: 'En person som vet exakt varför ingenting av det du föreslår är juridiskt möjligt.' },
-                { term: 'Tolkning', definition: 'Konsten att läsa en lagtext så att den passar myndighetens nuvarande schema.' },
-                { term: 'Arbetsklimat', definition: 'Hur varmt det blir i fikarummet när centraliseringen diskuteras.' },
-                { term: 'Policy', definition: 'Ett dokument som skapats för att förhindra att anställda använder sitt egna sunda förnuft.' },
-                { term: 'Verksamhetsberättelse', definition: 'En skönlitterär sammanfattning av året som gått.' },
-                { term: 'Standardformulär', definition: 'Ett dokument utformat för att passa ingen, men som måste fyllas i av alla.' },
-                { term: 'Tjänsteärende', definition: 'Den minsta mätbara enheten av byråkratisk tröghet.' },
-                { term: 'Chefskap', definition: 'Konsten att ta åt sig äran för det underställda gjort och skylla på systemet när det skiter sig.' },
-                { term: 'Insyn', definition: 'Möjligheten att titta på byråkratin utifrån utan att ha den blekaste aning om vad som händer där inne.' },
-                { term: 'Kompromiss', definition: 'Ett beslut som gör alla inblandade djupt missnöjda, vilket i byråkratin anses som en succé.' },
-                { term: 'Långbänk', definition: 'Myndighetens favoritmöbel där alla viktiga frågor placeras på obestämd tid.' },
-                { term: 'Förtroendevald', definition: 'En person som har blivit vald för att lita blint på vad tjänstemännen lägger fram.' },
-                { term: 'Behovsanalys', definition: 'En undersökning som visar att vi akut behöver mer administrativ personal.' },
-                { term: 'Måluppfyllelse', definition: 'Att flytta mållinjen bakåt tills man har passerat den.' },
-                { term: 'Internrevision', definition: 'När myndigheten undersöker sig själv och glatt konstaterar att man har följt sina egna regler för att göra fel.' },
-                { term: 'Sidoordnad', definition: 'En kollega som har exakt samma luddiga arbetsbeskrivning som du, men tjänar mer.' },
-                { term: 'Dokumentation', definition: 'Att skriva ner vad man borde ha gjort, istället för att göra det.' },
-                { term: 'Byråkratisk intuition', definition: 'Förmågan att känna på sig vilket papper som kommer att bli efterfrågat om tre år och gömma det redan nu.' },
-                { term: 'Effektivitetsmål', definition: 'Ett tal som uppfinns av ledningen för att motivera varför ingen får köpa nya bläckpennor.' },
-                { term: 'Sekretessbelagt', definition: 'Information som är så tråkig att ingen ändå skulle vilja läsa den, utom journalister.' },
-                { term: 'Remissvar', definition: 'Ett artigt sätt att säga "tack för att vi fick titta på ert värdelösa förslag".' },
-                { term: 'Arbetsbeskrivning', definition: 'En lista på arbetsuppgifter som du aldrig kommer att utföra eftersom du fyller i tidrapporter hela dagarna.' },
-                { term: 'Tidrapport', definition: 'Ett system där du lägger tre timmar i veckan på att bevisa att du har arbetat fyrtio timmar.' },
-                { term: 'Beslutsångest', definition: 'Myndighetens permanenta mentala tillstånd.' },
-                { term: 'Beredningsutskott', definition: 'Där man bestämmer vad man ska prata om på nästa möte där man ska bestämma vad man ska göra.' },
-                { term: 'Centralisering', definition: 'Att flytta beslutsfattandet så långt bort från verkligheten att ingen drabbas av konsekvenserna.' },
-                { term: 'Datalagring', definition: 'Att spara miljoner filer som ingen någonsin kommer att öppna igen, bara för säkerhets skull.' },
-                { term: 'Specialist', definition: 'En person som vet mer och mer om mindre och mindre, tills han vet absolut allt om ingenting.' },
-                { term: 'Generalist', definition: 'En person som vet mindre och mindre om mer och mer, tills han vet absolut ingenting om allt.' },
-                { term: 'Byråkratens bön', definition: '"Gode Gud, låt inget hända idag som kräver ett omedelbart beslut."' },
-                { term: 'Presskonferens', definition: 'Ett tillfälle där man meddelar att man ska tillsätta en utredning om det som hände igår.' },
-                { term: 'Investeringsbudget', definition: 'Pengar som måste brännas före december, oavsett om vi köper guldpläterade gem eller ej.' },
-                { term: 'Kommittébetänkande', definition: 'En 800 sidor lång sömnmedicin som avslutas med ordet "kanske".' },
-                { term: 'Tjänsteväg', definition: 'Den långa, snåriga stig som ett dokument måste vandra för att chefen ska kunna säga nej.' },
-                { term: 'Anställningsintervju', definition: 'En process där man söker efter den person som bäst kan dölja sin personlighet bakom floskler.' },
-                { term: 'Medarbetarsamtal', definition: 'Den årliga farsen där man låtsas prata om framtiden medan båda parter kollar på klockan.' },
-                { term: 'Friskvårdsbidrag', definition: 'Myndighetens sätt att kompensera för den ryggskada du får av att sitta på meningslösa möten.' },
-                { term: 'Erfarenhetsutbyte', definition: 'Att sitta i ett konferensrum i en annan stad och klaga på samma saker som hemma.' },
-                { term: 'Rutin', definition: 'Att göra fel på exakt samma sätt varje gång så att det blir en tradition.' },
-                { term: 'Undantagsregel', definition: 'En regel som är så svår att förstå att man måste tillsätta en ny avdelning för att tolka den.' },
-                { term: 'Blankettnummer', definition: 'Det viktigaste numret i en medborgares liv, tätt följt av personnumret.' },
-                { term: 'Handläggarstöd', definition: 'Ett dataprogram som är designat för att göra handläggarens jobb tre gånger så krångligt.' },
-                { term: 'Förvaltningslag', definition: 'En lagbok som förklarar hur man ska vara trevlig när man ger avslag.' },
-                { term: 'Offentlighetsprincipen', definition: 'Rätten att se alla papper som myndigheten inte har hunnit sekretessmarkera än.' },
-                { term: 'Svartbygge', definition: 'Ett hus som byggts utan att staten har fått sin del av kakan i form av administrativa avgifter.' }
-            ];
+            const ordlistaButton = document.getElementById('ordlistaToggle');
+            const lista = document.getElementById('byrakrat-accordion');
 
-            const toggleButton = document.getElementById('ordlistaToggle');
-            const closeButton = document.getElementById('closeOrdlista');
-            const panel = document.getElementById('ordlistaPanel');
-            const list = document.getElementById('dictionaryList');
-            const detail = document.getElementById('dictionaryDetail');
-
-            function renderDictionary() {
-                list.innerHTML = '';
-                dictionaryEntries.forEach((entry, index) => {
-                    const button = document.createElement('button');
-                    button.type = 'button';
-                    button.className = 'dictionary-entry' + (index === 0 ? ' active' : '');
-                    button.textContent = entry.term;
-                    button.addEventListener('click', () => {
-                        document.querySelectorAll('.dictionary-entry').forEach(item => item.classList.remove('active'));
-                        button.classList.add('active');
-                        detail.innerHTML = '<h4>' + entry.term + '</h4><p>' + entry.definition + '</p>';
-                    });
-                    list.appendChild(button);
-                });
-
-                const first = dictionaryEntries[0];
-                detail.innerHTML = '<h4>' + first.term + '</h4><p>' + first.definition + '</p>';
-            }
-
-            function openPanel() {
-                panel.classList.add('open');
-                toggleButton.setAttribute('aria-expanded', 'true');
-            }
-
-            function closePanel() {
-                panel.classList.remove('open');
-                toggleButton.setAttribute('aria-expanded', 'false');
-            }
-
-            toggleButton.addEventListener('click', () => {
-                if (panel.classList.contains('open')) {
-                    closePanel();
-                } else {
-                    openPanel();
-                }
+            ordlistaButton.addEventListener('click', function () {
+                const isOpen = lista.hasAttribute('open');
+                lista.open = !isOpen;
+                ordlistaButton.setAttribute('aria-expanded', String(!isOpen));
             });
-
-            closeButton.addEventListener('click', closePanel);
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape' && panel.classList.contains('open')) {
-                    closePanel();
-                }
-            });
-
-            renderDictionary();
 
             const stonBtn = document.getElementById('ston-button');
             const output = document.getElementById('gen-output');
