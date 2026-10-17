@@ -210,57 +210,7 @@
         .myndighet-sub { color: #fff; font-size: 1.05rem; font-weight: bold; margin-top: 6px; max-width: 320px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); }
 
         .gen-sub { margin: 0 0 12px; font-weight: bold; color: #4b2a86; }
-        .kicker { color: #fff; font-family: 'Arial Black', sans-serif; font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); }
-        .gen-output { background: #f4f4f4; padding: 15px; border-left: 5px solid var(--blue-1); min-height: 110px; font-family: 'Courier New', Courier, monospace; font-size: 0.95rem; margin-bottom: 10px; }
-
-        .btn-small { background: var(--black); color: white; border: none; padding: 12px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; width: 100%; font-size: 1rem; box-shadow: 0 4px 0px #444; }
-        .btn-small:hover { background: #222; }
-        .btn-small:active { transform: translateY(2px); box-shadow: 0 2px 0px #444; }
-
-        .shake { animation: shakeAnim 0.3s ease-in-out; }
-        @keyframes shakeAnim { 0%,100%{ transform: translateX(0);} 20%,60%{ transform: translateX(-6px);} 40%,80%{ transform: translateX(6px);} }
-
-        button:focus-visible, summary:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-
-        @media (prefers-reduced-motion: reduce) { .shake, .ston-button, * { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
-
-        @media (max-width: 900px) {
-            .grid-container { display: flex; flex-direction: column; }
-            .slogan { text-align: center; order: -1; }
-            .center-zone { order: 0; }
-            .myndighet-logo { width: 200px; height: 200px; }
-            .launch-base { width: 250px; height: 250px; }
-            .launch-base::after { inset: 30px; }
-            .ston-button { width: 150px; height: 150px; font-size: 2.1rem; }
-        }
-
-        body.device-mobile .grid-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        body.device-mobile .slogan {
-            order: -1;
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        body.device-mobile .box,
-        body.device-mobile .center-zone {
-            width: 100%;
-            max-width: 100%;
-        }
-
-        body.device-mobile .myndighet-logo { width: 180px; height: 180px; }
-        body.device-mobile .launch-base { width: 230px; height: 230px; }
-        body.device-mobile .launch-base::after { inset: 28px; }
-        body.device-mobile .ston-button { width: 130px; height: 130px; font-size: 1.8rem; }
-        body.device-mobile .device-badge,
-        body.device-mobile .counter-badge {
-            font-size: 0.72rem;
-            padding: 7px 10px;
-        }
+        .kicker { color: #fff; font-family: 'Arial Black', sans-serif; font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,[...]
     </style>
 </head>
 <body>
@@ -316,7 +266,7 @@
             <!-- Logotyp: sköld med två korsade häftklammerborttagare med vidöppna käftar -->
             <svg class="myndighet-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logo-title logo-desc">
                 <title id="logo-title">STÖN.NU logotyp</title>
-                <desc id="logo-desc">En blå sköld med gult kors och en avbruten häftklammer. Bakom skölden ligger två korsade häftklammerborttagare vars käftar gapar uppåt som hungriga munhål.</desc>
+                <desc id="logo-desc">En blå sköld med gult kors och en avbruten häftklammer. Bakom skölden ligger två korsade häftklammerborttagare vars käftar gapar uppåt som hungriga mu[...]</desc>
                 <defs>
                     <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0" stop-color="#0066b3"/>
