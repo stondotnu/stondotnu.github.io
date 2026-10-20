@@ -512,9 +512,9 @@
                     <h2>Tillgänglighetsredogörelse</h2>
                     <p>Vi har försökt göra webbplatsen användbar för så många som möjligt. Den kan användas med tangentbord och skärmläsare, har ett hoppa-till-innehåll-länk och går att läsa med större text och hög kontrast (välj i verktygsraden högst upp). Det enda vi vet är otillgängligt är själva humorn, som inte passar alla.</p>
                     <h2>Kakor</h2>
-                    <p>Vi använder inga kakor. Webbplatsen sparar dina val (textstorlek, kontrast och din röst i Månadens stön) i webbläsarens lokala lagring. Inget av det lämnar din webbläsare.</p>
+                    <p>Webbplatsen sparar dina val (textstorlek, kontrast och din röst i Månadens stön) i webbläsarens lokala lagring. Inget av det lämnar din webbläsare. Om du godkänner det i kakfältet använder vi dessutom Google Analytics, som sätter kakor för att mäta hur webbplatsen används. Utan ditt godkännande laddas inget från Google. Du kan när som helst ändra dig genom att välja &quot;Kakinställningar&quot; i sidfoten.</p>
                     <h2>Personuppgifter</h2>
-                    <p>Webbplatsen samlar inte in några personuppgifter. Den är statisk och saknar egen server. Hosting sker hos en extern tjänsteleverantör som kan logga besök enligt sina egna villkor.</p>
+                    <p>Webbplatsen samlar inte in några personuppgifter själv. Den är statisk och saknar egen server. Om du godkänner statistik skickas anonymiserad besöksstatistik (bland annat sidor, enhet och ungefärlig plats) till Google Analytics. Hosting sker hos en extern tjänsteleverantör som kan logga besök enligt sina egna villkor.</p>
                     <h2>Parodi</h2>
                     <p>Statens Överprövningsnämnd finns inte på riktigt. Alla texter, citat, nyheter och röster är påhittade för humorns skull och ska inte tolkas som uttalanden från eller om någon verklig myndighet eller person.</p>
                 </div>
@@ -543,6 +543,7 @@
                 <ul>
                     <li><a href="#/om-webbplatsen">Tillgänglighetsredogörelse</a></li>
                     <li><a href="#/om-webbplatsen">Kakor</a></li>
+                    <li><a href="#/om-webbplatsen" id="cookie-settings">Kakinställningar</a></li>
                     <li><a href="#/om-webbplatsen">Personuppgifter</a></li>
                 </ul>
             </div>
@@ -1880,5 +1881,75 @@
         route();
     })();
     </script>
+<!-- Besöksstatistik (Google Analytics 4). Laddas först efter att besökaren har godkänt det. Ta bort hela blocket för att ta bort statistiken. -->
+<style>
+    .kak { position: fixed; left: 0; right: 0; bottom: 0; z-index: 200; background: var(--c-navy, #00263E); color: #fff; border-top: 6px solid var(--c-yellow, #FECC02); box-shadow: 0 -6px 24px rgba(0,0,0,.3); }
+    .kak[hidden] { display: none; }
+    .kak-in { max-width: 1140px; margin: 0 auto; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; }
+    .kak p { margin: 0; flex: 1 1 420px; }
+    .kak strong { display: block; font-size: 1.05rem; margin-bottom: 2px; }
+    .kak a { color: #fff; }
+    .kak-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+    .kak button { font: inherit; font-weight: 700; padding: 11px 22px; border-radius: 6px; border: 2px solid #fff; background: transparent; color: #fff; cursor: pointer; }
+    .kak button.kak-ja { background: var(--c-yellow, #FECC02); border-color: var(--c-yellow, #FECC02); color: #000; }
+    .kak button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+</style>
+<div class="kak" id="kak" role="region" aria-label="Kakor och besöksstatistik" hidden>
+    <div class="kak-in">
+        <p><strong>Får vi mäta hur webbplatsen används?</strong>Vi vill använda Google Analytics för anonym besöksstatistik. Det sätter kakor. Du kan använda hela webbplatsen oavsett vad du väljer. <a href="#/om-webbplatsen">Läs mer om kakor</a>.</p>
+        <div class="kak-btns">
+            <button type="button" class="kak-ja" id="kak-ja">Godkänn statistik</button>
+            <button type="button" id="kak-nej">Endast nödvändiga</button>
+        </div>
+    </div>
+</div>
+<script>
+(function () {
+    'use strict';
+    var GA_ID = 'G-LS8BVZ0P4Y', KEY = 'ston.samtycke.v1';
+    var banner = document.getElementById('kak');
+    function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+    var loaded = false;
+
+    function pageView() {
+        if (typeof window.gtag === 'function') window.gtag('event', 'page_view', { page_title: document.title, page_location: location.href });
+    }
+    function loadGA() {
+        if (loaded) return; loaded = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', GA_ID, { send_page_view: false, anonymize_ip: true });
+        var s = document.createElement('script');
+        s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        pageView();
+        // Sidan byter sida utan omladdning: räkna varje sidbyte som en sidvisning.
+        window.addEventListener('hashchange', pageView);
+    }
+    function stopGA() {
+        // Stäng av mätning och ta bort Googles kakor på den här webbplatsen.
+        window['ga-disable-' + GA_ID] = true;
+        document.cookie.split(';').forEach(function (c) {
+            var n = c.split('=')[0].trim();
+            if (n === '_ga' || n.indexOf('_ga_') === 0 || n === '_gid') {
+                document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + location.hostname;
+            }
+        });
+    }
+    function show() { banner.hidden = false; }
+    function hide() { banner.hidden = true; }
+
+    document.getElementById('kak-ja').addEventListener('click', function () { set('ja'); window['ga-disable-' + GA_ID] = false; hide(); loadGA(); });
+    document.getElementById('kak-nej').addEventListener('click', function () { set('nej'); hide(); stopGA(); });
+    document.getElementById('cookie-settings').addEventListener('click', function () { show(); document.getElementById('kak-ja').focus(); });
+
+    var v = get();
+    if (v === 'ja') loadGA();
+    else if (v !== 'nej') show();
+})();
+</script>
 </body>
 </html>
