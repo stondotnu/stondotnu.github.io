@@ -1,0 +1,377 @@
+/*!
+ * "Om oss" – Statens Överprövningsnämnd: doktrin, staber och Ansvarsgeneratorn.
+ * Fristående modul för STÖN. Bygger om innehållet på sidan #/om-oss när sidan läses in.
+ * Den gamla texten finns kvar och visas som "Tidigare gällande version" längst ned.
+ *
+ * Aktivera med EN rad före </body>:
+ *   <script src="features/om-oss/om-oss.js" defer></script>
+ * Ta bort genom att radera raden: då visas den ursprungliga Om oss-sidan igen.
+ * Stäng av med data-enabled="false".
+ *
+ * Allt sker i webbläsaren, inget skickas någonstans. Allt är i try/catch.
+ */
+(function () {
+    'use strict';
+    try {
+        var script = document.currentScript;
+        if (!script || script.dataset.enabled === 'false') return;
+        var page = document.querySelector('[data-page="om-oss"]');
+        var body = page && page.querySelector('.page-body');
+        var h1 = body && body.querySelector('h1');
+        var oldProse = body && body.querySelector('.prose');
+        if (!page || !body || !h1 || !oldProse || document.getElementById('oo-root')) return;
+        var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* ================= 1. INNEHÅLL ================= */
+        var PILLARS = [
+            ['Målstyrt ansvarsvakuum', 'Delegationsordningen är cirkulär. Inget ärende landar någonsin på ett skrivbord med faktiskt beslutsmandat.'],
+            ['Den absoluta beredningen', 'Ett ärende är till sin natur aldrig färdigt. Att besluta är en risk för tjänstefel. Att utreda i evighet är riskfritt och personligt skyddat.'],
+            ['Den digitala kulissen', 'Vi stoltserar med agil digitalisering, e-tjänster och AI-strategi. I verkligheten krävs en pappersblankett, och den är slut.'],
+            ['Formkrav framför substans', 'Hundra procent av resurserna läggs på klammerdimensioner, bläckets arkivbeständighet och tidsfrister. Sakfrågan prövas aldrig.']
+        ];
+
+        var STAB = [
+            { id: 'ratt', icon: '⚖️', name: 'Rättsavdelningen', tag: 'Det formella hindret',
+              uppdrag: 'Säkerställer att myndighetens verksamhet bedrivs i enlighet med förvaltningslagen.',
+              metod: 'Tolkar förvaltningslagen så snävt att alla åtgärder kan klassas som potentiellt tjänstefel.',
+              citat: 'Att ta del av handlingen kan tolkas som faktisk beredning. Ärendet remitteras till HR.' },
+            { id: 'hr', icon: '🧘', name: 'HR-avdelningen', tag: 'Process- och självledarskapsfällan',
+              uppdrag: 'Främjar en hälsosam, attraktiv och inkluderande arbetsmiljö.',
+              metod: 'Omvandlar organisatoriska kollapser till den enskildes personliga ansvar.',
+              citat: 'Detta är en kulturfråga. Vi kallar till en halvdags workshop om personliga mandatgränser. Ansvaret vilar på medarbetarens friskvårdstimme.' },
+            { id: 'it', icon: '🖥️', name: 'IT-avdelningen', tag: 'Systembegränsningen',
+              uppdrag: 'Tillhandahåller säkra, moderna och användarvänliga digitala verktyg.',
+              metod: 'Förhindrar handläggning genom arkitektur. Allt går, men inte i det här systemet.',
+              citat: 'Ärendet faller mellan två moduler i Agresso/W3D3. Det kräver en RFC som behandlas av styrgruppen under Q3 nästa budgetår.' },
+            { id: 'sak', icon: '🔒', name: 'Säkerhetsavdelningen', tag: 'Sekretesskortet',
+              uppdrag: 'Skyddar myndighetens information, personal och lokaler.',
+              metod: 'Klassificerar all information som sårbar, inklusive själva klassificeringen.',
+              citat: 'Att fatta ett beslut skapar en informationssäkerhetsrisk. Handlingarna deponeras i bergrum tills en Q&A har upprättats.' },
+            { id: 'komm', icon: '📣', name: 'Kommunikationsavdelningen', tag: 'Det strategiska narrativet',
+              uppdrag: 'Skapar förtroende genom öppen, begriplig och korrekt kommunikation.',
+              metod: 'Svarar utan att göra några påståenden. Frågan bekräftas, ämnet lämnas.',
+              citat: 'Vi välkomnar översynen och filar på ett gemensamt budskapsunderlag. Alla frågor hänvisas till info-brevlådan.' }
+        ];
+
+        var HANDLAGGARE = [
+            'Ulla-Britt, 12 % deltid, åter i tjänst Q3 2029', 'Lennart, tf, tillförordnad sedan 2014', 'Gunilla, föräldraledig (andra barnet, andra myndigheten)',
+            'Stig-Arne, pensionerad, kvarstår i systemet', 'Monica, har bytt jobb. Efterträdaren har inte börjat än', 'Bengt, på kurs i "Beslutsfattande för den obeslutsamme"'
+        ];
+
+        // Ansvarskedjan. Varje nod har flera repliker (slumpas) och {p} ersätts med problemet.
+        var NODES = {
+            handl: { icon: '🧑‍💼', name: 'Handläggare', say: [
+                'Ärendet "{p}" ligger utanför mitt mandat enligt bilaga 4B. Jag lämnar över till enhetschefen.',
+                'Jag har läst "{p}" med stort intresse. Intresset har inget mandat. Vidare till enhetschef.',
+                'Jag skulle gärna hjälpa till med "{p}", men jag är bara förste handläggare.'] },
+            chef: { icon: '👔', name: 'Enhetschef', say: [
+                'Jag har delegerat "{p}" till handläggaren, så jag kan inte ta tillbaka det. Det vore en omdelegering.',
+                'Det här är en principfråga. Jag tar den inte, men jag förankrar den gärna. Uppåt, åt sidan, helst bort.',
+                'Jag är tf. Tillförordnade chefer fattar inga beslut, de förvaltar frågor.'] },
+            tillbaka: { icon: '↩️', name: 'Återremiss', say: [
+                'Återremitterat till handläggaren för komplettering av det som redan är komplett.',
+                'Ärendet saknar bilaga. Bilagan är ärendet. Ärendet är därför ofullständigt.'] },
+            hr: { icon: '🧘', name: 'HR', say: [
+                'Detta är en kulturfråga. Vi kallar till en halvdags workshop om personliga mandatgränser.',
+                'Frågan "{p}" visar på ett behov av dialog. Vi bjuder in till ett samtal om samtalet.',
+                'Vi ser en utvecklingsmöjlighet hos medarbetaren. Ansvaret vilar på friskvårdstimmen.'] },
+            ratt: { icon: '⚖️', name: 'Rättsavdelningen', say: [
+                'Att ta del av handlingen kan tolkas som faktisk beredning. Ärendet remitteras.',
+                'Förvaltningslagen medger inte att vi uttalar oss om "{p}", eftersom vi då skulle uttala oss.',
+                'Frågan är rättsligt komplex. Därför tar vi ingen ställning, vilket är en ställning.'] },
+            it: { icon: '🖥️', name: 'IT', say: [
+                'Ärendet faller mellan två moduler i Agresso/W3D3. Kräver en RFC som behandlas av styrgruppen Q3 nästa budgetår.',
+                'Det finns ingen modul för "{p}". Vi kan skapa en. Beställ via ärendehanteringssystemet. Det går ner kl. 15.',
+                'Har ni provat att starta om hela myndigheten?'] },
+            sak: { icon: '🔒', name: 'Säkerhet', say: [
+                'Att fatta ett beslut skapar en informationssäkerhetsrisk. Handlingarna deponeras i bergrum tills en Q&A har upprättats.',
+                'Ärendet "{p}" klassificeras som skyddsvärt. Det står i en handling som är skyddsvärd.',
+                'Vi kan inte bekräfta eller dementera att det finns ett ärende.'] },
+            komm: { icon: '📣', name: 'Kommunikation', say: [
+                'Vi välkomnar översynen och filar på ett gemensamt budskapsunderlag. Alla frågor hänvisas till info-brevlådan.',
+                'Vi är medvetna om situationen. Vi tar den på allvar. Vi har tagit den på allvar tidigare.',
+                'Vi arbetar med frågan och återkommer i takt med att vi har något att återkomma med.'] },
+            arkiv: { icon: '🗄️', name: 'Arkiv', say: [
+                'Mottaget. Arkiverat. Förseglat. Aldrig mer sett.',
+                'Handlingen har gallrats i enlighet med gallringsplanen som gallrades förra året.'] }
+        };
+        // Särskilda repliker när problemet innehåller vissa ord
+        var SPECIAL = [
+            { re: /brinn|brand|eld|rök/i, node: 'sak', say: 'Branden är en incident, inte ett ärende. Incidenten saknar incidentnummer. Ingen släcker något utan nummer.' },
+            { re: /skrivar|kopiator/i, node: 'it', say: 'Skrivaren är inte upphandlad. Den har aldrig funnits. Det är därför den inte fungerar.' },
+            { re: /toalett|dörr|lås|stol|trasig|läck/i, node: 'chef', say: 'Fastighet svarar att det rör sig om verksamhetens lokaler. Verksamheten svarar att det rör sig om fastigheten.' },
+            { re: /lön|semester|ledig/i, node: 'hr', say: 'Frågan om "{p}" ska hanteras via medarbetarsamtalet. Medarbetarsamtalen är pausade för ett utvecklingsarbete.' },
+            { re: /tid|väntetid|år|vänta|kö\b|dagar|månader/i, node: 'handl', say: 'Väntetiden på "{p}" är normal. Den kallas normal eftersom den är normal.' }
+        ];
+        var START = ['Skrivaren brinner', 'Handläggningstiden är 4 år', 'Toalettdörren går inte att låsa', 'Ingen vet vem som äger frågan'];
+
+        /* ================= 2. HJÄLPARE ================= */
+        function h(tag, attrs) {
+            var el = document.createElement(tag);
+            if (attrs) Object.keys(attrs).forEach(function (k) {
+                var v = attrs[k];
+                if (v == null || v === false) return;
+                if (k === 'class') el.className = v;
+                else if (k === 'text') el.textContent = v;
+                else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), v);
+                else el.setAttribute(k, v === true ? '' : v);
+            });
+            for (var i = 2; i < arguments.length; i++) {
+                var c = arguments[i];
+                if (c == null || c === false) continue;
+                if (Array.isArray(c)) c.forEach(function (x) { el.append(x.nodeType ? x : document.createTextNode(x)); });
+                else el.append(c.nodeType ? c : document.createTextNode(c));
+            }
+            return el;
+        }
+        function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+        function wait(ms) { return new Promise(function (r) { setTimeout(r, REDUCED ? 0 : ms); }); }
+        function dnr() { return 'Dnr STÖN ' + new Date().getFullYear() + '/' + String(1000 + Math.floor(Math.random() * 8999)) + '-' + (1 + Math.floor(Math.random() * 9)); }
+
+        /* ================= 3. UTSEENDE ================= */
+        var css = [
+            '#oo-root{display:grid;gap:44px;margin-top:8px}',
+            '#oo-root h2{margin:0 0 10px;font-size:1.5rem;line-height:1.25}',
+            '.oo-doktrin{background:linear-gradient(135deg,#00263e,#00467a);color:#fff;border-radius:10px;padding:26px 28px;border-left:8px solid var(--c-yellow,#fecc02)}',
+            '.oo-doktrin small{text-transform:uppercase;letter-spacing:.14em;color:var(--c-yellow,#fecc02);font-weight:700}',
+            '.oo-doktrin h2{color:#fff;margin:6px 0 10px;font-size:1.7rem}',
+            '.oo-doktrin p{margin:0;max-width:70ch;font-size:1.05rem}',
+            '.oo-led{margin:16px 0 0;padding:12px 16px;background:rgba(255,255,255,.1);border-radius:6px;font-family:Georgia,serif;font-style:italic;font-size:1.15rem}',
+            '.oo-pill{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:18px}',
+            '.oo-pill div{background:var(--c-card,#fff);border:1px solid var(--c-line,#d3dbe3);border-top:5px solid var(--c-blue,#006aa7);border-radius:8px;padding:14px 16px}',
+            '.oo-pill b{display:block;margin-bottom:4px;color:var(--c-ink,#14202b)}',
+            '.oo-pill span{font-size:.94rem;color:var(--c-muted,#43566a)}',
+            '.oo-pill i{font-style:normal;color:var(--c-blue,#006aa7);font-weight:800;margin-right:6px}',
+            '.oo-stabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px}',
+            '.oo-card{background:var(--c-card,#fff);border:1px solid var(--c-line,#d3dbe3);border-radius:10px;padding:18px;display:grid;gap:10px;align-content:start}',
+            '.oo-card h3{margin:0;font-size:1.15rem}',
+            '.oo-card h3 span{margin-right:8px}',
+            '.oo-card .tag{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--c-blue,#006aa7);font-weight:700}',
+            '.oo-card dl{margin:0;display:grid;gap:8px}',
+            '.oo-card dt{font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--c-muted,#43566a);font-weight:700}',
+            '.oo-card dd{margin:0}',
+            '.oo-card blockquote{margin:0;padding:10px 12px;border-left:4px solid var(--c-yellow,#fecc02);background:var(--c-bg,#f2f5f8);font-family:Georgia,serif;font-style:italic}',
+            '.oo-card .oo-skip{font-size:.85rem;color:var(--c-muted,#43566a);margin:0}',
+            '.oo-gen{background:var(--c-card,#fff);border:2px solid var(--c-blue,#006aa7);border-radius:12px;padding:22px}',
+            '.oo-gen .row{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:14px 0 8px}',
+            '.oo-gen label{display:grid;gap:4px;font-weight:700;flex:1 1 280px}',
+            '.oo-in{font:inherit;padding:11px 12px;border:2px solid var(--c-muted,#43566a);border-radius:6px;background:#fff;color:#000}',
+            '.oo-btn{font:inherit;font-weight:700;padding:11px 20px;border-radius:6px;border:2px solid var(--c-blue,#006aa7);background:var(--c-blue,#006aa7);color:#fff;cursor:pointer}',
+            '.oo-btn:hover:not([disabled]){background:#00557f}',
+            '.oo-btn[disabled]{opacity:.55;cursor:wait}',
+            '.oo-btn.alt{background:#fff;color:var(--c-link,#00528a)}',
+            '.oo-btn.alt:hover:not([disabled]){background:#eaf4fb}',
+            '.oo-btn:focus-visible,.oo-in:focus-visible,.oo-chip:focus-visible{outline:3px solid var(--c-focus,#1a73e8);outline-offset:3px}',
+            '.oo-chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px;align-items:center}',
+            '.oo-chip{font:inherit;font-size:.88rem;padding:5px 12px;border-radius:999px;border:1px solid var(--c-line,#9bb);background:var(--c-bg,#f2f5f8);color:var(--c-link,#00528a);cursor:pointer}',
+            '.oo-chip:hover{background:#e3eef7}',
+            '.oo-track{list-style:none;margin:18px 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}',
+            '.oo-node{flex:1 1 90px;min-width:84px;text-align:center;border:2px solid var(--c-line,#d3dbe3);border-radius:10px;padding:10px 4px;background:var(--c-bg,#f2f5f8);position:relative;transition:transform .25s,background .25s,border-color .25s}',
+            '.oo-node span{display:block;font-size:1.6rem}',
+            '.oo-node small{display:block;font-size:.76rem;font-weight:700}',
+            '.oo-node.done{background:#e9f1f8;border-color:#9fbfd8}',
+            '.oo-node.on{background:#fff6cc;border-color:var(--c-yellow,#fecc02);transform:translateY(-8px);box-shadow:0 8px 0 -2px rgba(0,0,0,.12)}',
+            '.oo-node.on::after{content:"🏐";position:absolute;right:-6px;top:-14px;font-size:1.4rem;animation:oo-b .5s ease-in-out infinite alternate}',
+            '@keyframes oo-b{to{transform:translateY(-8px) rotate(25deg)}}',
+            '.oo-say{min-height:3.2em;margin:10px 0;padding:12px 14px;background:var(--c-bg,#f2f5f8);border-left:5px solid var(--c-blue,#006aa7);border-radius:4px;font-style:italic}',
+            '.oo-hops{font-size:.85rem;color:var(--c-muted,#43566a)}',
+            '.oo-result{margin-top:14px;padding:16px 18px;border:2px solid #000;background:#fff;color:#000;border-radius:4px;display:grid;gap:8px}',
+            '.oo-result .head{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;font-weight:800}',
+            '.oo-result .meta{font-size:.88rem;color:#333;display:grid;gap:2px}',
+            '.oo-result .act{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}',
+            '.oo-stamp{display:inline-block;border:4px solid #9a1b1b;color:#9a1b1b;font-weight:900;letter-spacing:.12em;padding:2px 12px;border-radius:4px;transform:rotate(-4deg);justify-self:start}',
+            '.oo-org{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:26px;align-items:center}',
+            '.oo-org svg{width:100%;height:auto;max-width:440px}',
+            '.oo-org ol{margin:0;padding-left:1.2em;display:grid;gap:8px}',
+            '.oo-kont{background:var(--c-card,#fff);border:1px solid var(--c-line,#d3dbe3);border-radius:10px;padding:18px 20px;max-width:75ch}',
+            '.oo-old{max-width:75ch;border:1px dashed var(--c-muted,#43566a);border-radius:8px;padding:8px 16px}',
+            '.oo-old summary{cursor:pointer;font-weight:700;padding:8px 0}',
+            'html[data-contrast="high"] .oo-doktrin{background:#000}',
+            'html[data-contrast="high"] .oo-node.on{background:#fff;border-color:#000}',
+            '@media (max-width:640px){.oo-org{grid-template-columns:1fr}.oo-track{flex-direction:column}.oo-node{flex:none;display:grid;grid-template-columns:auto 1fr;gap:10px;text-align:left;align-items:center;padding:8px 12px}.oo-node.on{transform:translateX(8px)}.oo-node.on::after{right:8px;top:6px}.oo-doktrin{padding:20px}}',
+            '@media (prefers-reduced-motion:reduce){.oo-node,.oo-node.on::after{animation:none;transition:none}}'
+        ].join('\n');
+        var style = h('style', { id: 'oo-style', text: css });
+        document.head.appendChild(style);
+
+        /* ================= 4. SEKTIONER ================= */
+        function doktrin() {
+            return h('section', { class: 'oo-doktrin', 'aria-labelledby': 'oo-dok' },
+                h('small', { text: 'Myndighetens doktrin' }),
+                h('h2', { id: 'oo-dok', text: 'Målstyrt ansvarsvakuum och den cirkulära subsidiaritetsprincipen' }),
+                h('p', { text: 'Statens Överprövningsnämnd ansvarar för att allt ansvar tas, så länge det kan tas av någon annan. Vår verksamhet är rättssäker, transparent och i hög grad delegerad.' }),
+                h('p', { class: 'oo-led', text: '”Ett ärende som skickas vidare kan aldrig ligga någon till last.”' }),
+                h('div', { class: 'oo-pill' }, PILLARS.map(function (p, i) {
+                    return h('div', null, h('b', null, h('i', { text: (i + 1) + '.' }), p[0]), h('span', { text: p[1] }));
+                })));
+        }
+
+        function stabs() {
+            return h('section', { 'aria-labelledby': 'oo-st' },
+                h('h2', { id: 'oo-st', text: 'De fem staberna' }),
+                h('p', { text: 'Fem stabsfunktioner bär myndighetens ansvar, i den mån det går att bära det vidare. Varje stab har ett officiellt uppdrag och en beprövad metod.' }),
+                h('div', { class: 'oo-stabs', style: 'margin-top:14px' }, STAB.map(function (s) {
+                    return h('article', { class: 'oo-card' },
+                        h('div', null, h('h3', null, h('span', { 'aria-hidden': 'true', text: s.icon }), s.name), h('div', { class: 'tag', text: s.tag })),
+                        h('dl', null,
+                            h('div', null, h('dt', { text: 'Officiellt uppdrag' }), h('dd', { text: s.uppdrag })),
+                            h('div', null, h('dt', { text: 'Metod för ansvarsundvikande' }), h('dd', { text: s.metod }))),
+                        h('blockquote', { text: '”' + s.citat + '”' }),
+                        h('p', { class: 'oo-skip', text: 'Frågor om denna stab hänvisas till en annan stab.' }));
+                })));
+        }
+
+        function generator() {
+            var input = h('input', { class: 'oo-in', id: 'oo-in', type: 'text', maxlength: '80', autocomplete: 'off', placeholder: 'T.ex. Skrivaren brinner', 'aria-describedby': 'oo-hint' });
+            var go = h('button', { type: 'button', class: 'oo-btn', id: 'oo-go' }, '[Lokalisera ansvarig]');
+            var skip = h('button', { type: 'button', class: 'oo-btn alt', hidden: true }, 'Hoppa över bollplanket');
+            var track = h('ol', { class: 'oo-track', 'aria-label': 'Ansvarskedjan' });
+            var say = h('div', { class: 'oo-say', role: 'status', 'aria-live': 'polite', text: 'Ange ett problem så lokaliserar vi den som ansvarar för det.' });
+            var hops = h('div', { class: 'oo-hops' });
+            var out = h('div', { 'aria-live': 'polite' });
+            var running = false, skipped = false;
+
+            var chips = h('div', { class: 'oo-chips' }, h('span', { class: 'oo-hops', text: 'Exempel:' }), START.map(function (t) {
+                return h('button', { type: 'button', class: 'oo-chip', onclick: function () { if (!running) { input.value = t; input.focus(); } } }, t);
+            }));
+
+            function draw(keys, active) {
+                track.replaceChildren.apply(track, keys.map(function (k, i) {
+                    var n = NODES[k];
+                    return h('li', { class: 'oo-node' + (i < active ? ' done' : i === active ? ' on' : ''), 'aria-current': i === active ? 'step' : null },
+                        h('span', { 'aria-hidden': 'true', text: n.icon }), h('small', { text: n.name }));
+                }));
+            }
+            function route(p) {
+                var keys = ['handl', 'chef'];
+                if (Math.random() < 0.3) keys.push('tillbaka', 'chef');
+                keys.push('hr', 'ratt', 'it', 'sak');
+                if (Math.random() < 0.45) keys.push('komm');
+                keys.push('arkiv');
+                return keys;
+            }
+            function line(key, p) {
+                var l = pick(NODES[key].say);
+                SPECIAL.forEach(function (s) { if (s.node === key && s.re.test(p) && Math.random() < 0.85) l = s.say; });
+                return l.replace(/\{p\}/g, p);
+            }
+            function normalise(txt) { return txt.trim().replace(/\s+/g, ' ').replace(/[.!?]+$/, ''); }
+
+            function run() {
+                var p = normalise(input.value);
+                if (!p) { say.textContent = 'Ärendet saknar ärende. Det är registrerat som ett ärende utan ärende. Ange ett problem.'; input.focus(); return; }
+                if (running) return;
+                running = true; skipped = false; go.disabled = true; input.disabled = true; skip.hidden = false; out.replaceChildren(); hops.textContent = '';
+                var keys = route(p);
+                (function loop(i) {
+                    if (i >= keys.length) return finish(p, keys);
+                    draw(keys, i); say.textContent = NODES[keys[i]].name + ': ”' + line(keys[i], p) + '”';
+                    hops.textContent = 'Studs ' + (i + 1) + ' av ' + keys.length;
+                    return wait(skipped ? 0 : 1350).then(function () { loop(i + 1); });
+                })(0);
+            }
+            function finish(p, keys) {
+                draw(keys, keys.length); // allt "klart"
+                say.textContent = 'Ärendet har lokaliserats.';
+                hops.textContent = keys.length + ' studsar, 0 beslut.';
+                var who = pick(HANDLAGGARE);
+                var days = 120 + Math.floor(Math.random() * 900);
+                var resText = 'Resultat: Ärendet klassificeras som ”Gemensamt ansvar”. Eftersom ansvaret delas av alla åligger det ingen. Ärendet har arkiverats utan åtgärd.';
+                var again = h('button', { type: 'button', class: 'oo-btn alt', onclick: function () { input.disabled = false; running = false; go.disabled = false; input.focus(); input.select(); } }, 'Nytt ärende');
+                var copy = h('button', { type: 'button', class: 'oo-btn alt', onclick: function (e) {
+                    var t = '”' + p + '”\n' + resText + '\n' + dnrVal + ' · Ansvarig handläggare: ' + who + '\n– ur Statens Överprövningsnämnd, stön.nu';
+                    var b = e.currentTarget, o = b.textContent;
+                    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () { b.textContent = 'Kopierat'; setTimeout(function () { b.textContent = o; }, 1600); }, function () {});
+                } }, 'Kopiera beslutet');
+                var appeal = h('button', { type: 'button', class: 'oo-btn alt', onclick: function (e) {
+                    e.currentTarget.disabled = true;
+                    out.append(h('p', { class: 'oo-hops', role: 'status', text: 'Överklagandet har mottagits och ställts till den som avgjorde ärendet, det vill säga ingen. Beslut väntas inom ' + days + ' dagar, räknat från när ärendet återöppnas.' }));
+                } }, 'Överklaga resultatet');
+                var dnrVal = dnr();
+                out.replaceChildren(h('div', { class: 'oo-result' },
+                    h('span', { class: 'head', text: 'Beslut' }),
+                    h('span', { class: 'oo-stamp', text: 'ARKIVERAT' }),
+                    h('div', { text: resText }),
+                    h('div', { class: 'meta' }, h('span', { text: 'Ärende: ”' + p + '”' }), h('span', { text: dnrVal }), h('span', { text: 'Ansvarig handläggare: ' + who }), h('span', { text: 'Beräknad handläggningstid vid eventuell åtgärd: ' + days + ' dagar' })),
+                    h('div', { class: 'act' }, again, copy, appeal)));
+                skip.hidden = true; input.disabled = false; go.disabled = false; running = false;
+            }
+            go.addEventListener('click', run);
+            input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+            skip.addEventListener('click', function () { skipped = true; });
+            draw(['handl', 'chef', 'hr', 'ratt', 'it', 'sak', 'arkiv'], -1);
+
+            return h('section', { class: 'oo-gen', 'aria-labelledby': 'oo-gt' },
+                h('h2', { id: 'oo-gt', text: 'Vems bord är det? (Ansvarsgeneratorn)' }),
+                h('p', { id: 'oo-hint', text: 'Skriv in ett problem. Systemet lokaliserar den som ansvarar för det, och redovisar vägen dit.' }),
+                h('div', { class: 'row' }, h('label', { for: 'oo-in' }, 'Beskriv problemet', input), go, skip),
+                chips, track, say, hops, out);
+        }
+
+        function orgchart() {
+            // Cirkulär delegation: GD → Avdelningschef → Enhetschef → Förste handläggare → (bilaga 4B) → GD
+            var N = [['Generaldirektör', 0], ['Avdelningschef', 1], ['Enhetschef', 2], ['Förste handläggare', 3], ['Bilaga 4B: inget mandat', 4]];
+            var cx = 170, cy = 150, R = 105, svgNS = 'http://www.w3.org/2000/svg';
+            function S(tag, a) { var e = document.createElementNS(svgNS, tag); Object.keys(a || {}).forEach(function (k) { e.setAttribute(k, a[k]); }); return e; }
+            var svg = S('svg', { viewBox: '0 0 340 310', role: 'img', 'aria-labelledby': 'oo-svgt oo-svgd' });
+            var t = S('title', { id: 'oo-svgt' }); t.textContent = 'Delegationskedjan';
+            var d = S('desc', { id: 'oo-svgd' }); d.textContent = 'Generaldirektören delegerar till avdelningschefen, som delegerar till enhetschefen, som delegerar till förste handläggare. Förste handläggare saknar mandat enligt bilaga 4B och ansvaret återgår till generaldirektören.';
+            svg.append(t, d);
+            var defs = S('defs'), mk = S('marker', { id: 'oo-ar', viewBox: '0 0 10 10', refX: '8', refY: '5', markerWidth: '7', markerHeight: '7', orient: 'auto-start-reverse' });
+            mk.append(S('path', { d: 'M0 0 L10 5 L0 10 z', fill: '#006aa7' })); defs.append(mk); svg.append(defs);
+            var P = N.map(function (n, i) { var a = -Math.PI / 2 + i * 2 * Math.PI / N.length; return { x: cx + Math.cos(a) * R, y: cy + Math.sin(a) * R, a: a, i: i }; });
+            P.forEach(function (p, i) {
+                var q = P[(i + 1) % P.length], a0 = p.a + 0.42, a1 = q.a - 0.42;
+                var x0 = cx + Math.cos(a0) * R, y0 = cy + Math.sin(a0) * R, x1 = cx + Math.cos(a1) * R, y1 = cy + Math.sin(a1) * R;
+                svg.append(S('path', { d: 'M' + x0 + ' ' + y0 + ' A' + R + ' ' + R + ' 0 0 1 ' + x1 + ' ' + y1, fill: 'none', stroke: i === 4 ? '#9a1b1b' : '#006aa7', 'stroke-width': '3', 'stroke-dasharray': i === 4 ? '6 5' : '0', 'marker-end': 'url(#oo-ar)' }));
+            });
+            P.forEach(function (p, i) {
+                var last = i === 4, w = 112, hh = 38;
+                svg.append(S('rect', { x: p.x - w / 2, y: p.y - hh / 2, width: w, height: hh, rx: 8, fill: last ? '#fdeeee' : '#fff', stroke: last ? '#9a1b1b' : '#00263e', 'stroke-width': '2' }));
+                var words = N[i][0].split(' '), parts = words.length > 2 ? [words.slice(0, 2).join(' '), words.slice(2).join(' ')] : words.length === 2 ? words : [N[i][0]];
+                parts.forEach(function (ln, k) {
+                    var tx = S('text', { x: p.x, y: p.y + (parts.length === 1 ? 4 : k === 0 ? -3 : 11), 'text-anchor': 'middle', 'font-size': '10.5', 'font-weight': '700', fill: last ? '#9a1b1b' : '#00263e', 'font-family': 'inherit' });
+                    tx.textContent = ln; svg.append(tx);
+                });
+            });
+            var c = S('text', { x: cx, y: cy - 4, 'text-anchor': 'middle', 'font-size': '11', 'font-weight': '800', fill: '#00263e', 'font-family': 'inherit' }); c.textContent = 'Cirkulär'; svg.append(c);
+            var c2 = S('text', { x: cx, y: cy + 11, 'text-anchor': 'middle', 'font-size': '11', 'font-weight': '800', fill: '#00263e', 'font-family': 'inherit' }); c2.textContent = 'subsidiaritet'; svg.append(c2);
+            return h('section', { 'aria-labelledby': 'oo-ot' },
+                h('h2', { id: 'oo-ot', text: 'Organisation och delegation' }),
+                h('div', { class: 'oo-org' }, svg,
+                    h('div', null, h('p', { text: 'Delegationsordningen är utformad så att alla har delegerat och ingen har beslutat.' }),
+                        h('ol', null,
+                            h('li', { text: 'Generaldirektören delegerar till avdelningscheferna, som vidaredelegerar till enhetscheferna.' }),
+                            h('li', { text: 'Enhetscheferna delegerar till förste handläggare.' }),
+                            h('li', { text: 'Förste handläggare saknar beslutsmandat enligt bilaga 4B.' }),
+                            h('li', { text: 'Ansvaret återgår därför till generaldirektören, som enligt första stycket redan har delegerat frågan.' })),
+                        h('p', { class: 'oo-hops', style: 'margin-top:10px', text: 'Ärenden som hittills landat på ett skrivbord med beslutsmandat: 0.' }))));
+        }
+
+        function kontakt() {
+            return h('section', { class: 'oo-kont', 'aria-labelledby': 'oo-kt' },
+                h('h2', { id: 'oo-kt', text: 'Kontakta oss' }),
+                h('p', { style: 'margin:0', text: 'Telefon: 000-000 000 (plats 42 i kön). Besöksadress: Källaren. E-post: se bifogad fil. Frågor om vem som ansvarar för vad hänvisas till Ansvarsgeneratorn, som är det enda systemet som alltid svarar.' }));
+        }
+
+        /* ================= 5. MONTERING ================= */
+        var callout = oldProse.querySelector('.callout');
+        var root = h('div', { id: 'oo-root' }, doktrin(), stabs(), generator(), orgchart(), kontakt());
+        var old = h('details', { class: 'oo-old' }, h('summary', { text: 'Tidigare gällande version (ej upphävd)' }));
+        oldProse.hidden = true;
+        var parts = [];
+        if (callout) { var c2 = callout.cloneNode(true); c2.id = 'oo-callout'; parts.push(c2); }
+        var moved = oldProse.cloneNode(true); moved.hidden = false; moved.removeAttribute('hidden'); var cc = moved.querySelector('.callout'); if (cc) cc.remove();
+        old.appendChild(moved);
+        h1.after.apply(h1, parts.concat([root, old]));
+
+        window.stonOmOss = {
+            unmount: function () {
+                [root, old, style, document.getElementById('oo-callout')].forEach(function (n) { if (n && n.parentNode) n.parentNode.removeChild(n); });
+                oldProse.hidden = false; delete window.stonOmOss;
+            }
+        };
+    } catch (err) {
+        if (window.console && console.warn) console.warn('Om oss-modulen kunde inte starta:', err);
+    }
+})();
